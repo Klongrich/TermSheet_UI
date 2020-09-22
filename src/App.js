@@ -1,14 +1,9 @@
 import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 
-
 const Container = styled.div`
-
   font-family: Gotham, sans-serif;
-
-
 `
-
 const ILOdata = {
     hardcap: "",
     softcap: "",
@@ -31,27 +26,25 @@ function App() {
   const [team, setTeam] = useState("10.00%");
   const [marketing, setMarketing] = useState("8.59%");
   const [unlocked, setUnlocked] = useState("Marketing: 5%")
-  const [total, setTotal] = useState(36.00);
 
   const [ethLiq, setEthliq] = useState(12.83);
   const [lidLiq, setLidliq] = useState(2.57)
 
   //const [presale, setPresale] = useState(); Always 30%
 
-
   function calculate_outcome() {
-    get_eth_and_lid_liq();
     get_total_distrubtion();
     get_token_price();
   }
 
-  async function get_total_distrubtion() {
+  function get_total_distrubtion() {
 
     console.log(parseFloat(marketing));
     console.log(parseFloat(staking));
     console.log(parseFloat(team));
 
-    setTotal(parseFloat(marketing) 
+    //36 comes from 30% presale, 5% unlocked, 1% LID fee
+    return(parseFloat(marketing) 
     + parseFloat(staking) 
     + parseFloat(team) 
     + parseFloat(ethLiq)
@@ -65,60 +58,91 @@ function App() {
     )
   };
 
+  function calculate_liq(liq) {
+    setEthliq(liq * 0.83);
+    setLidliq(liq * 0.17);
+  }
+
   return (
 
     <>
     <Container>
       <h2>Term Sheet App </h2>
       
-      <h2>Inital</h2>
 
+      <div Style="float: left"> 
+      <h2>Inital</h2>
       <ul>
         <li> HardCap: <br />
-          <input type="text" placeholder={hardcap} onChange={e => setHardcap(e.target.value)} />
+          <input type="text" 
+                  placeholder={hardcap} 
+                  step=".01"
+                  onChange={e => setHardcap(e.target.value)} />
         </li>
 
 
         <li>SoftCap: <br />
-          <input type="text" placeholder={softCap} onChange={e => setSoftCap(e.target.value)} />
+          <input type="text" 
+                 placeholder={softCap} 
+                 step=".01"
+                 onChange={e => setSoftCap(e.target.value)} />
         </li>
 
 
         <li>Supply: <br />
-          <input type="text" placeholder={supply} onChange={e => setSupply(e.target.value)} />
+          <input  type="text" 
+                  placeholder={supply} 
+                  step=".01"
+                  onChange={e => setSupply(e.target.value)} />
         </li>
 
         <li>LIQ: <br />
-          <input type="text" placeholder={liq} onChange={e => setLiq(e.target.value)} />
+          <input  type="text" 
+                  placeholder={liq}
+                  step=".01" 
+                  onChange={e => calculate_liq(e.target.value)} />
         </li>
       </ul>
+      </div>
 
+  <div Style="float: left">
       <h2> Token Distribution </h2>
       <ul>
         <li>Staking: <br />
-          <input type="text" placeholder={staking} onChange={e => setStaking(e.target.value)} />
+          <input  type="text" 
+                  placeholder={staking}
+                  step=".01" 
+                  onChange={e => setStaking(e.target.value)} />
         </li>
 
         <li>Team <br /> 
-          <input type="text" placeholder={team} onChange={e => setTeam(e.target.value)} />
+          <input  type="text" 
+                  placeholder={team}
+                  step=".01" 
+                  onChange={e => setTeam(e.target.value)} />
         </li>
 
         <li> Marketing <br />
-          <input type="text" placeholder={marketing} onChange={e => setMarketing(e.target.value)} />  
+          <input type="number" 
+                 placeholder={marketing}
+                 step="0.01" 
+                 onChange={e => setMarketing(e.target.value)} />  
         </li> 
 
         <li> Unlocked <br />
-          <input type="text" placeholder={unlocked} onChange={e => setUnlocked(e.target.value)} />  
+          <input type="text" 
+                 placeholder={unlocked}
+                 step=".01" 
+                 onChange={e => setUnlocked(e.target.value)} />  
         </li> <br />
 
-        <li>Remaing: {total} </li> <br />
-        
-        <li>Presale: 30%</li>
-        <li>liq (eth): {ethLiq}% </li>
-        <li>liq (lid): {lidLiq}% </li>
-        <li>LID Fee: 1%</li>
-      </ul>
+        <li>Remaing: {(get_total_distrubtion() - 100) * -1} </li> <br />
 
+      </ul>
+    </div>
+
+<div Style="display:inline-block;
+            margin-bottom: 100px;">
     <h2> Bonus Range </h2>
     
       <ul Style="float: left">
@@ -156,40 +180,45 @@ function App() {
         <li> 1740 </li>
         <li> 1570 </li>
       </ul>
+  </div>
+
 
       <h2> Result </h2>
-    
-      <ul>
-        <li>Token Price: {get_token_price()}</li>
-        <li>Hardcap: {hardcap}</li>
-        <li>Softcap: {softCap} </li>
-        <li>LIQ: {liq} </li>
-    </ul>
 
-    <h2> Distrubtion </h2> 
-    <ul>
+
+    <ul Style="float: left">
         <li>Staking: {staking}</li>
         <li>Team: {team}</li>
         <li>Marketing: {marketing} </li>
         <li>Unlocked: marketing 5% </li>
+    </ul>
+
+    <ul Style="float: left">
         <li>Presale: 30%</li>
         <li>Liq (eth): {ethLiq}% </li>
         <li>Lia (lid): {lidLiq}% </li>
         <li>LID Fee: 1%</li>
-        <li>Total {total}% </li>
+      {/*   <li>Total {get_total_distrubtion()}% </li> */}
     </ul>
 
-      <div />
+    
+    <ul Style="display: inline-block">
+        <li>Token Price: {get_token_price()}</li>
+        <li>Hardcap: {hardcap}</li>
+        <li>Softcap: {softCap} </li>
+        <li>LIQ: {liq} </li>
 
-      <button onClick={() => calculate_outcome()}
+        <br /> <br /> <br /> <br />
+        <button onClick={() => calculate_outcome()}
               Style="display: inline-block">
         Submit
       </button>
 
-      <br /> 
-     <p> Token Price:  {get_token_price()} </p>
-     <p> LIQ: {total}% </p>
+    </ul>
 
+
+      <br /> 
+     
     </Container>
     </>
     
