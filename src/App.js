@@ -1,4 +1,13 @@
 import React , {useEffect, useState} from 'react';
+import styled from "styled-components";
+
+
+const Container = styled.div`
+
+  font-family: Gotham, sans-serif;
+
+
+`
 
 const ILOdata = {
     hardcap: "",
@@ -16,6 +25,7 @@ function App() {
   const [hardcap, setHardcap] = useState("1250");
   const [softCap, setSoftCap] = useState("500");
   const [supply, setSupply] = useState("300000");
+  const [liq, setLiq] = useState("15.41%");
 
   const [staking, setStaking] = useState("30.00%");
   const [team, setTeam] = useState("10.00%");
@@ -23,13 +33,14 @@ function App() {
   const [unlocked, setUnlocked] = useState("Marketing: 5%")
   const [total, setTotal] = useState(36.00);
 
-  const [liqPercent, setLiqPercent] = useState("8");
   const [ethLiq, setEthliq] = useState(12.83);
   const [lidLiq, setLidliq] = useState(2.57)
 
   //const [presale, setPresale] = useState(); Always 30%
 
+
   function calculate_outcome() {
+    get_eth_and_lid_liq();
     get_total_distrubtion();
     get_token_price();
   }
@@ -40,19 +51,24 @@ function App() {
     console.log(parseFloat(staking));
     console.log(parseFloat(team));
 
-    setTotal(((parseFloat(marketing) + parseFloat(staking) + parseFloat(team) + 36) - 100) * -1);
-
+    setTotal(parseFloat(marketing) 
+    + parseFloat(staking) 
+    + parseFloat(team) 
+    + parseFloat(ethLiq)
+    + parseFloat(lidLiq)
+    + 36)
   }
 
   function get_token_price() {
     return (
-      (parseFloat(supply) * ((total / 100) * 0.83)) / (parseFloat(hardcap) * 0.5)
+      (parseFloat(supply) * (ethLiq / 100)) / (parseFloat(hardcap) * 0.5)
     )
   };
 
   return (
 
     <>
+    <Container>
       <h2>Term Sheet App </h2>
       
       <h2>Inital</h2>
@@ -71,6 +87,10 @@ function App() {
         <li>Supply: <br />
           <input type="text" placeholder={supply} onChange={e => setSupply(e.target.value)} />
         </li>
+
+        <li>LIQ: <br />
+          <input type="text" placeholder={liq} onChange={e => setLiq(e.target.value)} />
+        </li>
       </ul>
 
       <h2> Token Distribution </h2>
@@ -80,15 +100,15 @@ function App() {
         </li>
 
         <li>Team <br /> 
-          <input type="text" placeholder={team} onChange={e => setStaking(e.target.value)} />
+          <input type="text" placeholder={team} onChange={e => setTeam(e.target.value)} />
         </li>
 
         <li> Marketing <br />
-          <input type="text" placeholder={marketing} onChange={e => setStaking(e.target.value)} />  
+          <input type="text" placeholder={marketing} onChange={e => setMarketing(e.target.value)} />  
         </li> 
 
         <li> Unlocked <br />
-          <input type="text" placeholder={unlocked} onChange={e => setStaking(e.target.value)} />  
+          <input type="text" placeholder={unlocked} onChange={e => setUnlocked(e.target.value)} />  
         </li> <br />
 
         <li>Remaing: {total} </li> <br />
@@ -137,6 +157,28 @@ function App() {
         <li> 1570 </li>
       </ul>
 
+      <h2> Result </h2>
+    
+      <ul>
+        <li>Token Price: {get_token_price()}</li>
+        <li>Hardcap: {hardcap}</li>
+        <li>Softcap: {softCap} </li>
+        <li>LIQ: {liq} </li>
+    </ul>
+
+    <h2> Distrubtion </h2> 
+    <ul>
+        <li>Staking: {staking}</li>
+        <li>Team: {team}</li>
+        <li>Marketing: {marketing} </li>
+        <li>Unlocked: marketing 5% </li>
+        <li>Presale: 30%</li>
+        <li>Liq (eth): {ethLiq}% </li>
+        <li>Lia (lid): {lidLiq}% </li>
+        <li>LID Fee: 1%</li>
+        <li>Total {total}% </li>
+    </ul>
+
       <div />
 
       <button onClick={() => calculate_outcome()}
@@ -148,6 +190,7 @@ function App() {
      <p> Token Price:  {get_token_price()} </p>
      <p> LIQ: {total}% </p>
 
+    </Container>
     </>
     
   )
