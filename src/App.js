@@ -23,28 +23,30 @@ function App() {
   const [unlocked, setUnlocked] = useState("Marketing: 5%")
   const [total, setTotal] = useState(36.00);
 
-  const [liqPercent, setLiqPercent] = useState("8")
+  const [liqPercent, setLiqPercent] = useState("8");
+  const [ethLiq, setEthliq] = useState(12.83);
+  const [lidLiq, setLidliq] = useState(2.57)
 
   //const [presale, setPresale] = useState(); Always 30%
 
   function calculate_outcome() {
-
     get_total_distrubtion();
     get_token_price();
   }
 
-  function get_total_distrubtion() {
+  async function get_total_distrubtion() {
 
     console.log(parseFloat(marketing));
     console.log(parseFloat(staking));
     console.log(parseFloat(team));
 
-    setTotal(((parseFloat(marketing) + parseFloat(staking) + parseFloat(team) + 36) - 100) * -1)
+    setTotal(((parseFloat(marketing) + parseFloat(staking) + parseFloat(team) + 36) - 100) * -1);
+
   }
 
   function get_token_price() {
     return (
-      (parseFloat(supply) * (total / 100)) / (parseFloat(hardcap) * 0.5)
+      (parseFloat(supply) * ((total / 100) * 0.83)) / (parseFloat(hardcap) * 0.5)
     )
   };
 
@@ -92,8 +94,8 @@ function App() {
         <li>Remaing: {total} </li> <br />
         
         <li>Presale: 30%</li>
-        <li>liq (eth): </li>
-        <li>liq (lid): </li>
+        <li>liq (eth): {ethLiq}% </li>
+        <li>liq (lid): {lidLiq}% </li>
         <li>LID Fee: 1%</li>
       </ul>
 
@@ -144,7 +146,7 @@ function App() {
 
       <br /> 
      <p> Token Price:  {get_token_price()} </p>
-     <p> Total Distribution: {total} </p>
+     <p> LIQ: {total}% </p>
 
     </>
     
