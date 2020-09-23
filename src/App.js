@@ -2,6 +2,9 @@ import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { CSVLink } from "react-csv";
 
+import data from './data.json';
+
+
 import LidLogo from './images/logo-lid.png';
 
 const Container = styled.div`
@@ -59,31 +62,20 @@ const ResultsContainer = styled.div`
   }
 
 `
-const ILOdata = {
-    hardcap: "",
-    softcap: "",
-    supply: "",
-    staking: "",
-    presale: "",
-    team: "",
-    marketing: "",
-    total: "",
-}
-
 function App() {
 
-  const [hardcap, setHardcap] = useState("1250");
-  const [softCap, setSoftCap] = useState("500");
-  const [supply, setSupply] = useState("300000");
-  const [liq, setLiq] = useState("15.41%");
+  const [hardcap, setHardcap] = useState(data.hardcap);
+  const [softCap, setSoftCap] = useState(data.softcap);
+  const [supply, setSupply] = useState(data.supply);
+  const [liq, setLiq] = useState(data.liq);
 
-  const [staking, setStaking] = useState("30.00%");
-  const [team, setTeam] = useState("10.00%");
-  const [marketing, setMarketing] = useState("8.59%");
-  const [unlocked, setUnlocked] = useState("Marketing")
+  const [staking, setStaking] = useState(data.staking);
+  const [team, setTeam] = useState(data.team);
+  const [marketing, setMarketing] = useState(data.marketing);
+  const [unlocked, setUnlocked] = useState(data.unlocked)
 
-  const [ethLiq, setEthliq] = useState(12.83);
-  const [lidLiq, setLidliq] = useState(2.57)
+  const [ethLiq, setEthliq] = useState(data.ethLiq);
+  const [lidLiq, setLidliq] = useState(data.lidLiq);
 
   //const [presale, setPresale] = useState(); Always 30%
 

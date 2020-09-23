@@ -1,0 +1,12 @@
+{
+    "hardcap":  1250,
+    "softcap": 500,
+    "supply": 300000,
+    "liq" : 15.41,
+    "staking": 30.00,
+    "team": 10.00,
+    "marketing": 8.59,
+    "unlocked" : "Marketing",
+    "ethLiq" : 12.83,
+    "lidLiq" : 2.57
+}
