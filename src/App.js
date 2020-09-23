@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   font-family: Gotham, sans-serif;
-
+  
   ul {
     list-style-type: none;
   }
@@ -11,6 +11,34 @@ const Container = styled.div`
   li {
     padding-top: 5px;
   }
+
+  h2 {
+    margin-left: 40px;
+  }
+
+  input {
+    margin-top: 3px;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 5px;
+    width: 250px;
+  }
+`
+
+const ResultsContainer = styled.div`
+  font-family: Gotham, sans-serif;
+  
+  margin-top: 20px;
+
+  ul {
+    margin-right: 200px;
+    margin-top: 0px;
+  }
+
+  h2 {
+    margin-right: 750px
+  }
+
 `
 const ILOdata = {
     hardcap: "",
@@ -52,17 +80,17 @@ function App() {
     console.log(parseFloat(team));
 
     //36 comes from 30% presale, 5% unlocked, 1% LID fee
-    return(parseFloat(marketing) 
+    return((parseFloat(marketing) 
     + parseFloat(staking) 
     + parseFloat(team) 
     + parseFloat(ethLiq)
     + parseFloat(lidLiq)
-    + 36)
+    + 36).toFixed(2))
   }
 
   function get_token_price() {
     return (
-      (parseFloat(supply) * (ethLiq / 100)) / (parseFloat(hardcap) * 0.5)
+      (parseFloat(supply) * (ethLiq / 100)) / (parseFloat(hardcap) * 0.5).toFixed(2)
     )
   };
 
@@ -78,7 +106,8 @@ function App() {
       <h2>Term Sheet App </h2>
       
 
-      <div Style="float: left"> 
+      <div Style="float: left;
+                  margin-right: 70px;"> 
       <h2>Inital</h2>
       <ul>
         <li> HardCap: <br />
@@ -115,7 +144,8 @@ function App() {
       </ul>
       </div>
 
-  <div Style="float: left">
+  <div Style="float: left;
+              margin-right: 50px;">
       <h2> Token Distribution </h2>
       <ul>
         <li>Staking: <br />
@@ -192,8 +222,8 @@ function App() {
   </div>
 
 
-      <h2> Result </h2>
-
+    <ResultsContainer> 
+    <h2> Result </h2>
 
     <ul Style="float: left">
         <li>Staking: {staking}</li>
@@ -216,18 +246,15 @@ function App() {
         <li>Hardcap: {hardcap}</li>
         <li>Softcap: {softCap} </li>
         <li>LIQ: {liq} </li>
+    </ul>
 
-        <br /> <br /> <br /> <br />
-        <button onClick={() => calculate_outcome()}
+      <br /> 
+
+      <button onClick={() => calculate_outcome()}
               Style="display: inline-block">
         Submit
       </button>
-
-    </ul>
-
-
-      <br /> 
-     
+      </ResultsContainer> 
     </Container>
     </>
     
