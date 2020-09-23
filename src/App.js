@@ -1,6 +1,9 @@
 import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 
+import { CSVLink, CSVDownload } from "react-csv";
+
+
 const Container = styled.div`
   font-family: Gotham, sans-serif;
   
@@ -99,12 +102,39 @@ function App() {
     setLidliq(liq * 0.17);
   }
 
+  const csvData = [
+    ["Token Presale"],
+    ["Price", get_token_price()],
+    ["Refferall Fee", "2.5%"],
+    ["Hardcap", hardcap],
+    ["Softcap", softCap],
+    ["Supply", supply],
+    ["liq", liq],
+    ["", ""],
+    ["Token Distribution"],
+    ["Fund", "Quantity"],
+    ["Staking", staking],
+    ["Presale", "30%"],
+    ["liq (xxx/ETH)", ethLiq],
+    ["liq (xxx/LID)", lidLiq],
+    ["Team", team ],
+    ["Marketing", marketing],
+    ["Unlocked: 5%", "Marketing "],
+    ["", ""],
+    ["Ether Distribution (%)"],
+    ["Fund", "Quantity", "Remaining", softCap, hardcap],
+    ["liq (XXX/ETH)", "50.00%", "50.00%", "", ""],
+    ["liq (XXX/LID)", "10.00%", "40.00%", "", ""],
+    ["TEAM+FUND", "20.00%", "20.00%", "", ""],
+    ["LID", "5.00%", "15.00%", "", ""],
+    ["Token Burn", "15.00%", "0.00%", "", ""],
+  ];
+
   return (
 
     <>
     <Container>
       <h2>Term Sheet App </h2>
-      
 
       <div Style="float: left;
                   margin-right: 70px;"> 
@@ -180,7 +210,7 @@ function App() {
       </ul>
     </div>
 
-<div Style="display:inline-block;
+  <div Style="display:inline-block;
             margin-bottom: 100px;">
     <h2> Bonus Range </h2>
     
@@ -250,10 +280,16 @@ function App() {
 
       <br /> 
 
-      <button onClick={() => calculate_outcome()}
+      <div Style="margin-left: 40px;
+                  padding-top: 10px;"> 
+        <CSVLink data={csvData}>Download me</CSVLink>
+      </div>
+
+       <button onClick={() => calculate_outcome()}
               Style="display: inline-block">
         Submit
-      </button>
+      </button>  
+      
       </ResultsContainer> 
     </Container>
     </>
