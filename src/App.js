@@ -3,6 +3,14 @@ import styled from "styled-components";
 
 const Container = styled.div`
   font-family: Gotham, sans-serif;
+
+  ul {
+    list-style-type: none;
+  }
+
+  li {
+    padding-top: 5px;
+  }
 `
 const ILOdata = {
     hardcap: "",
@@ -74,32 +82,34 @@ function App() {
       <h2>Inital</h2>
       <ul>
         <li> HardCap: <br />
-          <input type="text" 
+          <input type="number" 
                   placeholder={hardcap} 
-                  step=".01"
+                  step="0.01"
                   onChange={e => setHardcap(e.target.value)} />
         </li>
 
 
         <li>SoftCap: <br />
-          <input type="text" 
+          <input type="number" 
                  placeholder={softCap} 
-                 step=".01"
+                 step="0.01"
                  onChange={e => setSoftCap(e.target.value)} />
         </li>
 
 
         <li>Supply: <br />
-          <input  type="text" 
+          <input  type="number" 
                   placeholder={supply} 
-                  step=".01"
+                  step="0.01"
                   onChange={e => setSupply(e.target.value)} />
         </li>
 
         <li>LIQ: <br />
-          <input  type="text" 
+          <input  type="number" 
                   placeholder={liq}
-                  step=".01" 
+                  step="0.01" 
+                  min="0"
+                  max="100"
                   onChange={e => calculate_liq(e.target.value)} />
         </li>
       </ul>
@@ -109,16 +119,16 @@ function App() {
       <h2> Token Distribution </h2>
       <ul>
         <li>Staking: <br />
-          <input  type="text" 
+          <input  type="number" 
                   placeholder={staking}
-                  step=".01" 
+                  step="0.01" 
                   onChange={e => setStaking(e.target.value)} />
         </li>
 
         <li>Team <br /> 
-          <input  type="text" 
+          <input  type="number" 
                   placeholder={team}
-                  step=".01" 
+                  step="0.01" 
                   onChange={e => setTeam(e.target.value)} />
         </li>
 
@@ -132,11 +142,10 @@ function App() {
         <li> Unlocked <br />
           <input type="text" 
                  placeholder={unlocked}
-                 step=".01" 
                  onChange={e => setUnlocked(e.target.value)} />  
         </li> <br />
 
-        <li>Remaing: {(get_total_distrubtion() - 100) * -1} </li> <br />
+        <li>Remaing: {(get_total_distrubtion() - 100) * -1}% </li> <br />
 
       </ul>
     </div>
