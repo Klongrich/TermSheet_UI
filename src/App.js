@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { CSVLink } from "react-csv";
 
 import data from './data.json';
-
-
 import LidLogo from './images/logo-lid.png';
 
 const Container = styled.div`
@@ -50,6 +48,8 @@ const ResultsContainer = styled.div`
   
   margin-top: 5px;
   margin-bottom: 40px;
+
+  font-weight: bold;
 
   ul {
     margin-right: 80px;
@@ -101,13 +101,14 @@ function App() {
 
   function get_token_price() {
     return (
-      (parseFloat(supply) * (ethLiq / 100)) / (parseFloat(hardcap) * 0.5).toFixed(2)
+      (parseFloat(parseFloat(supply) * (ethLiq / 100)) / (parseFloat(hardcap) * 0.5)).toFixed(2)
     )
   };
 
   function calculate_liq(liq) {
-    setEthliq(liq * 0.83);
-    setLidliq(liq * 0.17);
+    setEthliq(parseFloat(liq * 0.83).toFixed(2));
+    setLidliq(parseFloat(liq * 0.17).toFixed(2))
+    setLiq(parseFloat(liq).toFixed(2));
   }
 
   const csvData = [
@@ -183,7 +184,7 @@ function App() {
 
         <li>LIQ <br />
           <input  type="number" 
-                  placeholder={liq}
+                  placeholder={liq + "%"}
                   step="0.01" 
                   min="0"
                   max="100"
@@ -199,21 +200,21 @@ function App() {
       <ul>
         <li>Staking <br />
           <input  type="number" 
-                  placeholder={staking}
+                  placeholder={staking + "%"} 
                   step="0.01" 
                   onChange={e => setStaking(e.target.value)} />
         </li>
 
         <li>Team <br /> 
           <input  type="number" 
-                  placeholder={team}
+                  placeholder={team + "%"}
                   step="0.01" 
                   onChange={e => setTeam(e.target.value)} />
         </li>
 
         <li> Marketing <br />
           <input type="number" 
-                 placeholder={marketing}
+                 placeholder={marketing + "%"}
                  step="0.01" 
                  onChange={e => setMarketing(e.target.value)} />  
         </li> 
@@ -276,16 +277,23 @@ function App() {
 
 
     <ResultsContainer> 
-    <h2> Result </h2>
+    <h2> Result: ${data.Token}</h2>
 
     <ul Style="float: left">
-        <li>Staking: {staking}</li>
-        <li>Team: {team}</li>
-        <li>Marketing: {marketing} </li>
-        <li>Unlocked: {unlocked} 5% </li>
+        <li> Token Price: {get_token_price()}  </li>
+        <li> LIQ: {liq}%  </li>
+        <li>  Hardcap: {hardcap}  </li>
+        <li> Softcap: {softCap} </li>
     </ul>
 
     <ul Style="float: left">
+        <li>Staking: {staking}% </li>
+        <li>Team: {team}% </li>
+        <li>Marketing: {marketing}% </li>
+        <li>Unlocked: {unlocked} 5% </li>
+    </ul>
+
+    <ul Style="display: inline-block">
         <li>Presale: 30%</li>
         <li>Liq (eth): {ethLiq}% </li>
         <li>Lia (lid): {lidLiq}% </li>
@@ -293,13 +301,6 @@ function App() {
       {/*   <li>Total {get_total_distrubtion()}% </li> */}
     </ul>
 
-    
-    <ul Style="display: inline-block">
-        <li>Token Price: {get_token_price()}</li>
-        <li>Hardcap: {hardcap}</li>
-        <li>Softcap: {softCap} </li>
-        <li>LIQ: {liq} </li>
-    </ul>
 
       <br /> 
 
