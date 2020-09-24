@@ -5,6 +5,13 @@ export default function bonusRange({token_price}) {
 
     return (
         <>
+         <div Style="display:inline-block;
+            margin-bottom: 100px;
+            background-color: white;
+            color: #0c65EB;
+            width: 398px;">
+            <h2> Bonus Range </h2>
+
         <ul Style="float: left">
             <li>Range</li>
             {bonusData.map(data => 
@@ -32,6 +39,7 @@ export default function bonusRange({token_price}) {
                 <li> { (data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(0)}</li>    
             )}   
         </ul>
+        </div>
       </>
     )
 }

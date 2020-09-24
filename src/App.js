@@ -6,7 +6,11 @@ import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
 import {get_liq_percentage} from './utils/calculate_bonus'
-import BonusRange from './components/bonusRange'
+
+import BonusRange from './components/BonusRange'
+import TokenPresale from './components/TokenPresale'
+import TokenDistrubtion from './components/TokenDistrubtion'
+import Result from './components/Result'
 
 const Container = styled.div`
   font-family: 'Gotham', sans-serif;
@@ -45,26 +49,6 @@ const Container = styled.div`
   }
 `
 
-const ResultsContainer = styled.div`
-  font-family: Gotham, sans-serif;
-  background-color:#737373;
-  
-  margin-top: 5px;
-  margin-bottom: 40px;
-
-  font-weight: bold;
-
-  ul {
-    margin-right: 80px;
-    margin-top: -5px;
-    width: 250px;
-  }
-
-  h2 {
-    margin-right: 750px
-  }
-
-`
 function App() {
 
   const [hardcap, setHardcap] = useState(data.hardcap);
@@ -152,151 +136,22 @@ function App() {
                 margin-left: 20px;
                 margin-bottom: -70px;"src={LidLogo} />
 
-      <h2 Style=" font-size: 28px;
-                  color: #0c65EB;
-                  margin-left: 90px;
-                  ">
-                  Term Sheet App </h2>
+    <h2 Style=" font-size: 28px;
+                color: #0c65EB;
+                margin-left: 90px;
+                ">
+                Term Sheet App </h2>
 
-      <div Style="float: left;
-                  background: linear-gradient(0deg, rgba(12,101,235,1) 0%, rgba(28,158,247,1) 100%);
-                  color: white;"> 
-      <h2>Token Presale</h2>
-      <ul>
-        <li> HardCap <br />
-          <input type="number" 
-                  placeholder={hardcap} 
-                  step="0.01"
-                  onChange={e => setHardcap(e.target.value)} />
-        </li>
+    <TokenPresale />
 
+    <TokenDistrubtion />
 
-        <li>SoftCap <br />
-          <input type="number" 
-                 placeholder={softCap} 
-                 step="0.01"
-                 onChange={e => setSoftCap(e.target.value)} />
-        </li>
+    <BonusRange token_supply={supply}
+                token_price={get_token_price()}
+                 />
 
+    <Result />
 
-        <li>Supply <br />
-          <input  type="number" 
-                  placeholder={supply} 
-                  step="0.01"
-                  onChange={e => setSupply(e.target.value)} />
-        </li>
-
-        <li>LIQ <br />
-          <input  type="number" 
-                  placeholder={liq + "%"}
-                  step="0.01" 
-                  min="0"
-                  max="100"
-                  onChange={e => calculate_liq(e.target.value)} />
-        </li>
-      </ul>
-      </div>
-
-  <div Style="float: left;
-              background: linear-gradient(0deg, rgba(12,101,235,1) 0%, rgba(28,158,247,1) 100%);
-              color: white;">
-      <h2> Token Distribution </h2>
-      <ul>
-        <li>Staking <br />
-          <input  type="number" 
-                  placeholder={staking + "%"} 
-                  step="0.01" 
-                  onChange={e => setStaking(e.target.value)} />
-        </li>
-
-        <li>Team <br /> 
-          <input  type="number" 
-                  placeholder={team + "%"}
-                  step="0.01" 
-                  onChange={e => setTeam(e.target.value)} />
-        </li>
-
-        <li> Marketing <br />
-          <input type="number" 
-                 placeholder={marketing + "%"}
-                 step="0.01" 
-                 onChange={e => setMarketing(e.target.value)} />  
-        </li> 
-
-        <li> Unlocked <br />
-          <input type="text" 
-                 placeholder={unlocked}
-                 onChange={e => setUnlocked(e.target.value)} />  
-        </li> 
-        
-        {/*
-        <br />
-        <li>Remaing: {(get_total_distrubtion() - 100) * -1}% </li> <br /> */}
-
-      </ul>
-    </div>
-
-  <div Style="display:inline-block;
-            margin-bottom: 100px;
-            background-color: white;
-            color: #0c65EB;
-            width: 398px;">
-    <h2> Bonus Range </h2>
-
-      <BonusRange token_supply={supply}
-                  token_price={get_token_price()} />
-  </div>
-
-
-    <ResultsContainer> 
-    <h2> Result: ${data.Token}</h2>
-
-    <ul Style="float: left">
-        <li> Token Price: {get_token_price()}  </li>
-        <li> LIQ: {liq}%  </li>
-        <li>  Hardcap: {hardcap}  </li>
-        <li> Softcap: {softCap} </li>
-    </ul>
-
-    <ul Style="float: left">
-        <li>Staking: {staking}% </li>
-        <li>Team: {team}% </li>
-        <li>Marketing: {marketing}% </li>
-        <li>Unlocked: {unlocked} 5% </li>
-    </ul>
-
-    <ul Style="display: inline-block">
-        <li>Presale: 30%</li>
-        <li>Liq (eth): {ethLiq}% </li>
-        <li>Lia (lid): {lidLiq}% </li>
-        <li>LID Fee: 1%</li>
-      {/*   <li>Total {get_total_distrubtion()}% </li> */}
-    </ul>
-
-
-      <br /> 
-
-       <button Style="font-size: 18px;
-                      display: inline-block;
-                      border:2px solid #D8E0E7;
-                      border-radius:25px;
-                      background-color: #D8E0E7;
-                      width: 173px;
-                      height: 35px;
-                      margin-bottom:20px;
-                      margin-left: 30px;
-                      z-index: 2;
-                      "
-       onClick={() => calculate_outcome()}
-      >
-        Submit
-      </button>  
-
-    <br />
-
-      {/* <CSVLink data={csvData}>Download CSV</CSVLink>    */}
-      
-      </ResultsContainer> 
     </Container>
 
     <p> {get_liq_percentage(supply , hardcap)}</p>
