@@ -5,6 +5,8 @@ import { CSVLink } from "react-csv";
 import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
+import LIQresult from './calculate_bonus'
+
 const Container = styled.div`
   font-family: 'Gotham', sans-serif;
   background-color: #E4E4E4;;
@@ -326,6 +328,8 @@ function App() {
       
       </ResultsContainer> 
     </Container>
+
+    <LIQresult />
     </>
     
   )
