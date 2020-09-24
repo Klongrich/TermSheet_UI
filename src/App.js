@@ -6,6 +6,7 @@ import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
 import LIQresult from './calculate_bonus'
+import BonusRange from './components/bonusRange'
 
 const Container = styled.div`
   font-family: 'Gotham', sans-serif;
@@ -239,42 +240,9 @@ function App() {
             background-color: white;
             color: #0c65EB">
     <h2> Bonus Range </h2>
-    
-      <ul Style="float: left">
-        <li>Range</li>
-        <li> 0 </li>
-        <li> 250 </li>
-        <li> 500 </li>
-        <li> 1000 </li>
-        <li> 1250 </li>
-      </ul>
 
-      <ul Style="float: left;">
-        <li> BasePrice </li>
-        <li> 77 </li>
-        <li> 74 </li>
-        <li> 71 </li>
-        <li> 68 </li>
-        <li> 65 </li>
-      </ul>
-
-      <ul Style="float: left;">
-        <li> Referal </li>
-        <li> 75 </li>
-        <li> 72 </li>
-        <li> 69 </li>
-        <li> 66 </li>
-        <li> 64 </li>
-      </ul>
-
-      <ul Style="display: inline-block">
-        <li> Tokens </li>
-        <li> 2300 </li>
-        <li> 2100 </li>
-        <li> 1890 </li>
-        <li> 1740 </li>
-        <li> 1570 </li>
-      </ul>
+      <BonusRange token_supply={supply}
+                  token_price={get_token_price()} />
   </div>
 
 
