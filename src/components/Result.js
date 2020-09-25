@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CSVLink } from "react-csv";
 
 import get_token_price from '../utils/calculate_toke_price'
+import {useHardCap} from '../state/index'
 
 import data from '../data.json';
 
@@ -27,36 +28,26 @@ const ResultsContainer = styled.div`
 
 `
 
-export default function Results () {
-
-    //Move all data into state
-    const [hardcap, setHardcap] = useState(data.hardcap);
-    const [softCap, setSoftCap] = useState(data.softcap);
-    const [supply, setSupply] = useState(data.supply);
-    const [liq, setLiq] = useState(data.liq);
-  
-    const [staking, setStaking] = useState(data.staking);
-    const [team, setTeam] = useState(data.team);
-    const [marketing, setMarketing] = useState(data.marketing);
-    const [unlocked, setUnlocked] = useState(data.unlocked)
-  
-    const [ethLiq, setEthliq] = useState(data.ethLiq);
-    const [lidLiq, setLidliq] = useState(data.lidLiq);
-
-    function calculate_outcome() {
-        // get_total_distrubtion();
-        // get_token_price();
-        // setLiq(get_liq_percentage(supply , hardcap))
-        return (0);
-    }
-
+export default function Results ( {
+  token_price,
+  hardcap,
+  softCap,
+  supply,
+  liq,
+  staking,
+  team,
+  marketing,
+  unlocked,
+  ethLiq,
+  lidLiq
+}) {
     return (
         <>
         <ResultsContainer> 
             <h2> Result: ${data.Token}</h2>
 
             <ul Style="float: left">
-                <li> Token Price: {get_token_price(supply, ethLiq, hardcap)}  </li>
+                <li> Token Price: {token_price} </li>
                 <li> LIQ: {liq}%  </li>
                 <li>  Hardcap: {hardcap}  </li>
                 <li> Softcap: {softCap} </li>
@@ -91,7 +82,7 @@ export default function Results () {
                             margin-left: 30px;
                             z-index: 2;
                             "
-            onClick={() => calculate_outcome()}
+            // onClick={() => calculate_outcome()}
             >
                 Submit
             </button>  

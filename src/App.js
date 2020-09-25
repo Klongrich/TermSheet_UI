@@ -6,10 +6,9 @@ import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
 import {get_liq_percentage} from './utils/calculate_bonus'
+import {useHardCap} from './state/index'
 
 import BonusRange from './components/BonusRange'
-import TokenPresale from './components/TokenPresale'
-import TokenDistrubtion from './components/TokenDistrubtion'
 import Result from './components/Result'
 
 const Container = styled.div`
@@ -99,33 +98,33 @@ function App() {
     setLiq(parseFloat(liq).toFixed(2));
   }
 
-  const csvData = [
-    ["Token Presale"],
-    ["Price", get_token_price()],
-    ["Refferall Fee", "2.5%"],
-    ["Hardcap", hardcap],
-    ["Softcap", softCap],
-    ["Supply", supply],
-    ["liq", liq],
-    ["", ""],
-    ["Token Distribution"],
-    ["Fund", "Quantity"],
-    ["Staking", staking],
-    ["Presale", "30%"],
-    ["liq (xxx/ETH)", ethLiq],
-    ["liq (xxx/LID)", lidLiq],
-    ["Team", team ],
-    ["Marketing", marketing],
-    ["Unlocked: 5%", unlocked],
-    ["", ""],
-    ["Ether Distribution (%)"],
-    ["Fund", "Quantity", "Remaining", softCap, hardcap],
-    ["liq (XXX/ETH)", "50.00%", "50.00%", "", ""],
-    ["liq (XXX/LID)", "10.00%", "40.00%", "", ""],
-    ["TEAM+FUND", "20.00%", "20.00%", "", ""],
-    ["LID", "5.00%", "15.00%", "", ""],
-    ["Token Burn", "15.00%", "0.00%", "", ""],
-  ];
+  // const csvData = [
+  //   ["Token Presale"],
+  //   ["Price", get_token_price()],
+  //   ["Refferall Fee", "2.5%"],
+  //   ["Hardcap", hardcap],
+  //   ["Softcap", softCap],
+  //   ["Supply", supply],
+  //   ["liq", liq],
+  //   ["", ""],
+  //   ["Token Distribution"],
+  //   ["Fund", "Quantity"],
+  //   ["Staking", staking],
+  //   ["Presale", "30%"],
+  //   ["liq (xxx/ETH)", ethLiq],
+  //   ["liq (xxx/LID)", lidLiq],
+  //   ["Team", team ],
+  //   ["Marketing", marketing],
+  //   ["Unlocked: 5%", unlocked],
+  //   ["", ""],
+  //   ["Ether Distribution (%)"],
+  //   ["Fund", "Quantity", "Remaining", softCap, hardcap],
+  //   ["liq (XXX/ETH)", "50.00%", "50.00%", "", ""],
+  //   ["liq (XXX/LID)", "10.00%", "40.00%", "", ""],
+  //   ["TEAM+FUND", "20.00%", "20.00%", "", ""],
+  //   ["LID", "5.00%", "15.00%", "", ""],
+  //   ["Token Burn", "15.00%", "0.00%", "", ""],
+  // ];
 
   return (
 
@@ -142,18 +141,106 @@ function App() {
                 ">
                 Term Sheet App </h2>
 
-    <TokenPresale />
+      <div Style="float: left;
+                  background: linear-gradient(0deg, rgba(12,101,235,1) 0%, rgba(28,158,247,1) 100%);
+                  color: white;"> 
 
-    <TokenDistrubtion />
+      <h2>Token Presale</h2>
+      <ul>
+        <li> HardCap <br />
+          <input type="number" 
+                  placeholder={hardcap} 
+                  step="0.01"
+                  onChange={e => setHardcap(e.target.value)} />
+        </li>
+
+
+        <li>SoftCap <br />
+          <input type="number" 
+                 placeholder={softCap} 
+                 step="0.01"
+                 onChange={e => setSoftCap(e.target.value)} />
+        </li>
+
+
+        <li>Supply <br />
+          <input  type="number" 
+                  placeholder={supply} 
+                  step="0.01"
+                  onChange={e => setSupply(e.target.value)} />
+        </li>
+
+        <li>LIQ <br />
+          <input  type="number" 
+                  placeholder={liq + "%"}
+                  step="0.01" 
+                  min="0"
+                  max="100"
+                  onChange={e => calculate_liq(e.target.value)} />
+        </li>
+      </ul>
+      </div>
+
+      <div Style="float: left;
+              background: linear-gradient(0deg, rgba(12,101,235,1) 0%, rgba(28,158,247,1) 100%);
+              color: white;">
+      <h2> Token Distribution </h2>
+      <ul>
+        <li>Staking <br />
+          <input  type="number" 
+                  placeholder={staking + "%"} 
+                  step="0.01" 
+                  onChange={e => setStaking(e.target.value)} />
+        </li>
+
+        <li>Team <br /> 
+          <input  type="number" 
+                  placeholder={team + "%"}
+                  step="0.01" 
+                  onChange={e => setTeam(e.target.value)} />
+        </li>
+
+        <li> Marketing <br />
+          <input type="number" 
+                 placeholder={marketing + "%"}
+                 step="0.01" 
+                 onChange={e => setMarketing(e.target.value)} />  
+        </li> 
+
+        <li> Unlocked <br />
+          <input type="text" 
+                 placeholder={unlocked}
+                 onChange={e => setUnlocked(e.target.value)} />  
+        </li> 
+        
+        {/*
+        <br />
+        <li>Remaing: {(get_total_distrubtion() - 100) * -1}% </li> <br /> */}
+      </ul>
+    </div>
+
+
+
 
     <BonusRange token_supply={supply}
                 token_price={get_token_price()}
                  />
 
-    <Result />
+    <Result token_price={get_token_price()}
+            hardcap={hardcap}
+            softCap={softCap}
+            supply={supply}
+            liq={liq}
+            staking={staking}
+            team={team}
+            marketing={marketing}
+            unlocked={unlocked}
+            ethLiq={ethLiq}
+            lidLiq={lidLiq}/>
 
     </Container>
 
+    {/* For Debugging */}
     <p> {get_liq_percentage(supply , hardcap)}</p>
     </>
     
