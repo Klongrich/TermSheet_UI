@@ -1,4 +1,4 @@
-export const bonusData = [
+export const BonusData = [
     {
         Percentage: 0.25,
         Amount: 200.00

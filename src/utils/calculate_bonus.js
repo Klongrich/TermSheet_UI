@@ -1,5 +1,5 @@
 import React , {useEffect, useState} from 'react';
-import {bonusData} from '../config'
+import {BonusData} from '../config'
 
 export function get_liq_percentage({token_supply, ETH_HardCap}) {
     
@@ -19,15 +19,15 @@ export function get_liq_percentage({token_supply, ETH_HardCap}) {
     var Result;
 
     totalAmount = 0;
-    {bonusData.map(data => 
+    {BonusData.map(data => 
         totalAmount += ((data.Percentage * data.Amount) + data.Amount)
     )}
 
-    ref = ((bonusData[0].Amount) + (bonusData[0].Percentage * bonusData[0].Amount)) / totalAmount;
+    ref = ((BonusData[0].Amount) + (BonusData[0].Percentage * BonusData[0].Amount)) / totalAmount;
     sampleAmount = presale_tokens  * ref;
 
-    bonusPrice = sampleAmount / bonusData[0].Amount;
-    targetPrice = bonusPrice / (1 + bonusData[0].Percentage);
+    bonusPrice = sampleAmount / BonusData[0].Amount;
+    targetPrice = bonusPrice / (1 + BonusData[0].Percentage);
 
     eth_liq = ((ETH_HardCap / 2) * targetPrice) / token_supply;
 

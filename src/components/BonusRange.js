@@ -1,31 +1,50 @@
 import React , {useEffect, useState} from 'react';
-import {bonusData} from '../config'
+import {BonusData} from '../config'
 
 import Modal from 'react-modal';
 
 const bonusOptions = [
     {
         id: "1",
-        type: "25% - 10%"
+        type: "25% - 10%",
+        info: [{
+                Percentage: 0.714,
+                Amount: 200.00
+            },
+            {
+                Percentage: 0.714,
+                Amount: 300.00
+            },
+            {
+                Percentage: 0.714,
+                Amount: 500.00
+            },
+            {
+                Percentage: 0.714,
+                Amount: 250.00
+            }]
     },
     {
         id: "2",
-        type: "35% - 5%"
+        type: "35% - 5%",
+        info: BonusData
     },
     {
         id: "3",
-        type: "30% - 10%"
+        type: "30% - 10%",
+        info: BonusData
     },
     {
         id: "4",
-        type: "10% - 1%"
+        type: "10% - 1%",
+        info: BonusData
     },
 ]
  
 const customStyles = {
   content : {
     top                   : '220px',
-    left                  : '70%',
+    left                  : '30%',
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
@@ -42,6 +61,7 @@ export default function BonusRange ({token_price}) {
     var subtitle;
 
     const [modalIsOpen , setIsOpen] = useState(false);
+    const [bonusData, setBonusData] = useState(BonusData);
     
     function openModal() {
       setIsOpen(true);
@@ -53,6 +73,10 @@ export default function BonusRange ({token_price}) {
    
     function closeModal(){
       setIsOpen(false);
+    }
+
+    function sayhey(){
+        console.log("hey");
     }
 
     function get_total_tokens(){
@@ -73,10 +97,10 @@ export default function BonusRange ({token_price}) {
             background-color: white;
             color: #0c65EB;
             width: 398px;">
-            <h2> Bonus Range </h2>
 
-            <button onClick={openModal}>Bonuses</button>
+            <h2 Style="float: left"> Bonus Range </h2>
 
+            <h3 Style="margin-left: 150px" onClick={openModal}> Select</h3>
 
             <Modal  isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
@@ -84,16 +108,16 @@ export default function BonusRange ({token_price}) {
                     style={customStyles}
                     >
             
-            <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Strucuter </h2>
+                <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Strucuter </h2>
 
-            {bonusOptions.map(data =>
-                <p> {data.id} : ({data.type}) </p>
-            )}
-            <p>Create Own</p>
+                {bonusOptions.map(data =>
+                    <button onClick={() => setBonusData(data.info)}> {data.id} : ({data.type}) </button>
+                )}
+                <p>Create Own</p>
 
-            <button onClick={closeModal}>close</button>
+                <button onClick={closeModal}>close</button>
 
-        </Modal>
+            </Modal>
 
         <ul Style="float: left">
             <li>Range</li>
@@ -105,7 +129,7 @@ export default function BonusRange ({token_price}) {
         <ul Style="float: left">
             <li>Bonus</li>
             {bonusData.map(data => 
-                <li> {data.Percentage * 100}% </li>    
+                <li> {(data.Percentage * 100).toFixed(2)}% </li>    
             )}
         </ul>
 
