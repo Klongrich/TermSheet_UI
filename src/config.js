@@ -14,9 +14,5 @@ export const bonusData = [
     {
         Percentage: 0.10,
         Amount: 250.00
-    },
-    {
-        Percentage: 0.05,
-        Amount: 250.00
     }
 ]

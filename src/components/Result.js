@@ -38,8 +38,10 @@ export default function Results ( {
   team,
   marketing,
   unlocked,
+  remaining,
   ethLiq,
-  lidLiq
+  lidLiq,
+  csvData
 }) {
     return (
         <>
@@ -65,7 +67,6 @@ export default function Results ( {
                 <li>Liq (eth): {ethLiq}% </li>
                 <li>Lia (lid): {lidLiq}% </li>
                 <li>LID Fee: 1%</li>
-            {/*   <li>Total {get_total_distrubtion()}% </li> */}
             </ul>
 
 
@@ -81,15 +82,17 @@ export default function Results ( {
                             margin-bottom:20px;
                             margin-left: 30px;
                             z-index: 2;
+                            text-decoration: none;
                             "
             // onClick={() => calculate_outcome()}
             >
-                Submit
+               <CSVLink Style="text-decoration: none;
+                               font-size: 18px;
+                               font-family: Gotham, sans-serif;
+                               font-weight: 0;
+                               color:  #4A4A4A" data={csvData}> Submit </CSVLink>
             </button>  
-
-            <br />
-
-            {/* <CSVLink data={csvData}>Download CSV</CSVLink>    */}   
+      
       </ResultsContainer> 
     </>
     )

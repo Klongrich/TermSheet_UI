@@ -37,6 +37,7 @@ const Container = styled.div`
 
   h2 {
     margin-left: 40px;
+    margin-top: 10px;
   }
 
   input {
@@ -62,6 +63,8 @@ function App() {
 
   const [ethLiq, setEthliq] = useState(data.ethLiq);
   const [lidLiq, setLidliq] = useState(data.lidLiq);
+
+  const [reccomendedLiq, setReccomendedLiq] = useState(0);
 
   //const [presale, setPresale] = useState(); Always 30%
 
@@ -98,33 +101,35 @@ function App() {
     setLiq(parseFloat(liq).toFixed(2));
   }
 
-  // const csvData = [
-  //   ["Token Presale"],
-  //   ["Price", get_token_price()],
-  //   ["Refferall Fee", "2.5%"],
-  //   ["Hardcap", hardcap],
-  //   ["Softcap", softCap],
-  //   ["Supply", supply],
-  //   ["liq", liq],
-  //   ["", ""],
-  //   ["Token Distribution"],
-  //   ["Fund", "Quantity"],
-  //   ["Staking", staking],
-  //   ["Presale", "30%"],
-  //   ["liq (xxx/ETH)", ethLiq],
-  //   ["liq (xxx/LID)", lidLiq],
-  //   ["Team", team ],
-  //   ["Marketing", marketing],
-  //   ["Unlocked: 5%", unlocked],
-  //   ["", ""],
-  //   ["Ether Distribution (%)"],
-  //   ["Fund", "Quantity", "Remaining", softCap, hardcap],
-  //   ["liq (XXX/ETH)", "50.00%", "50.00%", "", ""],
-  //   ["liq (XXX/LID)", "10.00%", "40.00%", "", ""],
-  //   ["TEAM+FUND", "20.00%", "20.00%", "", ""],
-  //   ["LID", "5.00%", "15.00%", "", ""],
-  //   ["Token Burn", "15.00%", "0.00%", "", ""],
-  // ];
+  const csvData = [
+    ["Token Presale"],
+    ["Price", get_token_price()],
+    ["Refferall Fee", "2.5%"],
+    ["Hardcap", hardcap],
+    ["Softcap", softCap],
+    ["Supply", supply],
+    ["liq", liq],
+    ["", ""],
+    ["Token Distribution"],
+    ["Fund", "Quantity"],
+    ["Staking", staking],
+    ["Presale", "30%"],
+    ["liq (xxx/ETH)", ethLiq],
+    ["liq (xxx/LID)", lidLiq],
+    ["Team", team ],
+    ["Marketing", marketing],
+    ["Unlocked: 5%", unlocked],
+    ["", ""],
+    ["Ether Distribution (%)"],
+    ["Fund", "Quantity", "Remaining", softCap, hardcap],
+    ["liq (XXX/ETH)", "50.00%", "50.00%", "", ""],
+    ["liq (XXX/LID)", "10.00%", "40.00%", "", ""],
+    ["TEAM+FUND", "20.00%", "20.00%", "", ""],
+    ["LID", "5.00%", "15.00%", "", ""],
+    ["Token Burn", "15.00%", "0.00%", "", ""],
+  ];
+
+  
 
   return (
 
@@ -133,7 +138,7 @@ function App() {
     <img Style="width: 50px;
                 height: 50px;
                 margin-left: 20px;
-                margin-bottom: -70px;"src={LidLogo} />
+                margin-bottom: -60px;"src={LidLogo} />
 
     <h2 Style=" font-size: 28px;
                 color: #0c65EB;
@@ -178,6 +183,11 @@ function App() {
                   max="100"
                   onChange={e => calculate_liq(e.target.value)} />
         </li>
+
+        <br />
+        <li Style="color: #7FFF00;
+                   font-weight: bold"> Reccomended LIQ: {reccomendedLiq.toFixed(2)}% </li>
+       
       </ul>
       </div>
 
@@ -213,9 +223,9 @@ function App() {
                  onChange={e => setUnlocked(e.target.value)} />  
         </li> 
         
-        {/*
         <br />
-        <li>Remaing: {(get_total_distrubtion() - 100) * -1}% </li> <br /> */}
+        <li Style="color: #8B0000;
+                   font-weight: bold"> Distrubtion Remaing: {((get_total_distrubtion() - 100) * -1).toFixed(2)}% </li>
       </ul>
     </div>
 
@@ -236,7 +246,8 @@ function App() {
             marketing={marketing}
             unlocked={unlocked}
             ethLiq={ethLiq}
-            lidLiq={lidLiq}/>
+            lidLiq={lidLiq}
+            csvData={csvData}/>
 
     </Container>
 

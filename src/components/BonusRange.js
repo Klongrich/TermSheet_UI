@@ -3,6 +3,16 @@ import {bonusData} from '../config'
 
 export default function bonusRange({token_price}) {
 
+    function get_total_tokens(){
+        var totalAmount;
+
+        totalAmount = 0;
+        {bonusData.map(data => 
+            totalAmount += parseFloat((data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(2))
+        )}
+        return (totalAmount);
+    }
+    
     return (
         <>
          <div Style="display:inline-block;
@@ -27,7 +37,7 @@ export default function bonusRange({token_price}) {
         </ul>
 
         <ul Style="float: left">
-            <li>Base Price</li>
+            <li>Price</li>
             {bonusData.map(data => 
                 <li> {(parseFloat(token_price) * data.Percentage + parseFloat(token_price)).toFixed(0)} </li>    
             )}
@@ -39,6 +49,9 @@ export default function bonusRange({token_price}) {
                 <li> { (data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(0)}</li>    
             )}   
         </ul>
+
+        <p Style="margin-left: 180px;
+                 font-weight: bold;">Total Tokens: {get_total_tokens().toFixed(0)} </p>
         </div>
       </>
     )
