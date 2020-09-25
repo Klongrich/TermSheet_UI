@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/TermSheet_UI/static/css/main.f4cc4fb6.chunk.css",
+    "main.js": "/TermSheet_UI/static/js/main.1dda07c2.chunk.js",
+    "main.js.map": "/TermSheet_UI/static/js/main.1dda07c2.chunk.js.map",
+    "runtime-main.js": "/TermSheet_UI/static/js/runtime-main.dc098adc.js",
+    "runtime-main.js.map": "/TermSheet_UI/static/js/runtime-main.dc098adc.js.map",
+    "static/js/2.3ac7e164.chunk.js": "/TermSheet_UI/static/js/2.3ac7e164.chunk.js",
+    "static/js/2.3ac7e164.chunk.js.map": "/TermSheet_UI/static/js/2.3ac7e164.chunk.js.map",
+    "index.html": "/TermSheet_UI/index.html",
+    "precache-manifest.50c1c70de487e4fcd72ac1918f8bd1fe.js": "/TermSheet_UI/precache-manifest.50c1c70de487e4fcd72ac1918f8bd1fe.js",
+    "service-worker.js": "/TermSheet_UI/service-worker.js",
+    "static/css/main.f4cc4fb6.chunk.css.map": "/TermSheet_UI/static/css/main.f4cc4fb6.chunk.css.map",
+    "static/js/2.3ac7e164.chunk.js.LICENSE.txt": "/TermSheet_UI/static/js/2.3ac7e164.chunk.js.LICENSE.txt",
+    "static/media/logo-lid.png": "/TermSheet_UI/static/media/logo-lid.20b6644e.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.dc098adc.js",
+    "static/js/2.3ac7e164.chunk.js",
+    "static/css/main.f4cc4fb6.chunk.css",
+    "static/js/main.1dda07c2.chunk.js"
+  ]
+}
