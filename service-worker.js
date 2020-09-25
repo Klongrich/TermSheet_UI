@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/TermSheet_UI/precache-manifest.50c1c70de487e4fcd72ac1918f8bd1fe.js"
+  "/TermSheet_UI/precache-manifest.c2fe469a7559730ba8aff257c586fc37.js"
 );
 
 self.addEventListener('message', (event) => {
