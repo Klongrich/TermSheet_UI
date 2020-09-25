@@ -18,6 +18,7 @@ export function useHardCap({action, value}) {
       }
 
     }, [])
+    
     return hardcap
 }
 
