@@ -107,6 +107,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     var subtitle;
 
     const [modalIsOpen , setIsOpen] = useState(false);
+    const [HardCap, setHardCap] = useState(hardcap);
     const [bonusData, setbonusData] = useState(BonusData);
 
     const [fields, setFields] = useState([{ value: null }]);
@@ -120,7 +121,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
       }
 
     function updateNewPercentages(i, event) {
-        const values = [...fields];
+        const values = [...newPercentage];
         values[i].value = event.target.value;
         setNewPercentage(values);
       }
