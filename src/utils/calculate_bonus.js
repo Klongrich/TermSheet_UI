@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import {BonusData} from '../config'
 
-export function get_liq_percentage({token_supply, ETH_HardCap}) {
+export function Get_liq_percentage({token_supply, ETH_HardCap, BonusData}) {
     
     var Result;
     var presale_tokens;
@@ -42,5 +42,9 @@ export function get_liq_percentage({token_supply, ETH_HardCap}) {
     console.log("eth_liq: " + eth_liq);
     console.log("Result: ", Result);
 
-    return (Result)
+    return (
+        <>
+        {Result}
+        </>
+    );
 }

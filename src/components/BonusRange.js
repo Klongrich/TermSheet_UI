@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import {BonusData} from '../config'
 
+import  {Get_liq_percentage} from '../utils/calculate_bonus'
 import Modal from 'react-modal';
 
 const bonusOptions = [
@@ -27,17 +28,62 @@ const bonusOptions = [
     {
         id: "2",
         type: "35% - 5%",
-        info: BonusData
+        info:  [{
+            Percentage: 0.35,
+            Amount: 400.00
+        },
+        {
+            Percentage: 0.10,
+            Amount: 100.00
+        },
+        {
+            Percentage: 0.08,
+            Amount: 200.00
+        },
+        {
+            Percentage: 0.05,
+            Amount: 550.00
+        }]
     },
     {
         id: "3",
         type: "30% - 10%",
-        info: BonusData
+        info:  [{
+            Percentage: 0.30,
+            Amount: 250.00
+        },
+        {
+            Percentage: 0.20,
+            Amount: 250.00
+        },
+        {
+            Percentage: 0.10,
+            Amount: 175.00
+        },
+        {
+            Percentage: 0.00,
+            Amount: 550.00
+        }]
     },
     {
         id: "4",
         type: "10% - 1%",
-        info: BonusData
+        info: [{
+            Percentage: 0.714,
+            Amount: 200.00
+        },
+        {
+            Percentage: 0.714,
+            Amount: 300.00
+        },
+        {
+            Percentage: 0.714,
+            Amount: 500.00
+        },
+        {
+            Percentage: 0.714,
+            Amount: 250.00
+        }]
     },
 ]
  
@@ -57,11 +103,39 @@ const customStyles = {
   }
 };
 
-export default function BonusRange ({token_price}) {
+export default function BonusRange ({token_price, supply, hardcap}) {
     var subtitle;
 
     const [modalIsOpen , setIsOpen] = useState(false);
-    const [bonusData, setBonusData] = useState(BonusData);
+    const [bonusData, setbonusData] = useState(BonusData);
+
+    const [fields, setFields] = useState([{ value: null }]);
+    const [newPercentage, setNewPercentage] = useState([{ value: null }]);
+
+
+    function handleChange(i, event) {
+        const values = [...fields];
+        values[i].value = event.target.value;
+        setFields(values);
+      }
+
+    function updateNewPercentages(i, event) {
+        const values = [...fields];
+        values[i].value = event.target.value;
+        setNewPercentage(values);
+      }
+    
+      function handleAdd() {
+        const values = [...fields];
+        values.push({ value: null });
+        setFields(values);
+      }
+    
+      function handleRemove(i) {
+        const values = [...fields];
+        values.splice(i, 1);
+        setFields(values);
+      }
     
     function openModal() {
       setIsOpen(true);
@@ -75,8 +149,9 @@ export default function BonusRange ({token_price}) {
       setIsOpen(false);
     }
 
-    function sayhey(){
-        console.log("hey");
+    function updateBonusData(data){
+        setbonusData(data);
+        //closeModal();
     }
 
     function get_total_tokens(){
@@ -88,6 +163,54 @@ export default function BonusRange ({token_price}) {
         )}
         return (totalAmount);
     }
+
+    function get_liq_percentage(token_supply, ETH_HardCap) {
+    
+        var Result;
+        var presale_tokens;
+    
+        token_supply = 300000.00;
+        ETH_HardCap = 1250.00;
+        presale_tokens = token_supply * 0.3
+    
+        var totalAmount;
+        var ref;
+        var sampleAmount;
+        var bonusPrice;
+        var targetPrice;
+        var eth_liq;
+        var Result;
+    
+        totalAmount = 0;
+        {bonusData.map(data => 
+            totalAmount += ((data.Percentage * data.Amount) + data.Amount)
+        )}
+    
+        ref = ((bonusData[0].Amount) + (bonusData[0].Percentage * bonusData[0].Amount)) / totalAmount;
+        sampleAmount = presale_tokens  * ref;
+    
+        bonusPrice = sampleAmount / bonusData[0].Amount;
+        targetPrice = bonusPrice / (1 + bonusData[0].Percentage);
+    
+        eth_liq = ((ETH_HardCap / 2) * targetPrice) / token_supply;
+    
+        Result = (eth_liq / 0.83322517845) * 100
+        
+        //For Testing and Debuging
+        console.log("Total Amount: " + totalAmount);
+        console.log("ref: " + ref);
+        console.log("sampleAmount: " + sampleAmount);
+        console.log("bonusPrice: " + bonusPrice);
+        console.log("targetPrice: " + targetPrice);
+        console.log("eth_liq: " + eth_liq);
+        console.log("Result: ", Result);
+    
+        return (
+            <>
+            Recommend LIQ: {Result.toFixed(2)}%
+            </>
+        );
+    }
     
     return (
         <>
@@ -98,9 +221,12 @@ export default function BonusRange ({token_price}) {
             color: #0c65EB;
             width: 398px;">
 
-            <h2 Style="float: left"> Bonus Range </h2>
+            <h2> Bonus Range </h2>
 
-            <h3 Style="margin-left: 150px" onClick={openModal}> Select</h3>
+            <h3 Style="text-decoration: underline;
+                        margin-left: 40px;
+                        margin-bottom: -5px;
+                        margin-top: -10px;" onClick={openModal}> Select</h3>
 
             <Modal  isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
@@ -111,10 +237,43 @@ export default function BonusRange ({token_price}) {
                 <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Strucuter </h2>
 
                 {bonusOptions.map(data =>
-                    <button onClick={() => setBonusData(data.info)}> {data.id} : ({data.type}) </button>
+                    <p onClick={() => updateBonusData(data.info)}> {data.id} : ({data.type}) </p>
                 )}
                 <p>Create Own</p>
+                
+                {fields.map((field, idx) => {
+                    return (
+                    <div key={`${field}-${idx}`}>
+                        <input
+                            type="text"
+                            placeholder="Range"
+                            onChange={e => handleChange(idx, e)}
+                            />
 
+                        <input
+                            type="text"
+                            placeholder="Bonus Percentage"
+                            onChange={e => updateNewPercentages(idx, e)}
+                            />
+                        
+                        <button type="button" onClick={() => handleRemove(idx)}>
+                        X
+                        </button>
+                    </div>
+                    );
+                })}
+                
+                <p>ETH left: {hardcap}</p>
+
+                <button type="button" onClick={() => handleAdd()}>
+                    Add
+                </button>
+
+                <button type="button" onClick={() => console.log(fields, newPercentage)}>
+                    submit
+                </button>
+                                                        
+                <p>...</p>
                 <button onClick={closeModal}>close</button>
 
             </Modal>
@@ -147,9 +306,18 @@ export default function BonusRange ({token_price}) {
             )}   
         </ul>
 
-        <p Style="margin-left: 180px;
+            
+        <p Style="margin-left: 40px;
+                 font-weight: bold;">
+                {get_liq_percentage(supply, hardcap)}
+        </p>
+        
+
+        <p Style="margin-left: 200px;
                  font-weight: bold;">Total Tokens: {get_total_tokens().toFixed(0)} </p>
         </div>
+
+       
       </>
     )
 }

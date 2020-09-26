@@ -5,7 +5,7 @@ import { CSVLink } from "react-csv";
 import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
-import {get_liq_percentage} from './utils/calculate_bonus'
+//import {get_liq_percentage} from './utils/calculate_bonus'
 import {useHardCap} from './state/index'
 
 import BonusRange from './components/BonusRange'
@@ -71,7 +71,7 @@ function App() {
   function calculate_outcome() {
     get_total_distrubtion();
     get_token_price();
-    setLiq(get_liq_percentage(supply , hardcap))
+//    setLiq(get_liq_percentage(supply , hardcap))
   }
 
   function get_total_distrubtion() {
@@ -232,7 +232,8 @@ function App() {
 
 
 
-    <BonusRange token_supply={supply}
+    <BonusRange supply={supply}
+                hardcap={hardcap}
                 token_price={get_token_price()}
                  />
 
@@ -252,7 +253,7 @@ function App() {
     </Container>
 
     {/* For Debugging */}
-    <p> {get_liq_percentage(supply , hardcap)}</p>
+    {/* <p> {get_liq_percentage(supply , hardcap)}</p> */}
     </>
     
   )
