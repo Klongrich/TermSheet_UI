@@ -114,10 +114,23 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [newPercentages, setNewPercentages] = useState([ {amount: null} ]);
 
 
-    function handleChange(i, event) {
+    function updateHardCap(){
+        var sum = 0;
+
+        {newRanges.map( data =>
+            sum += parseFloat(data.value)
+        )}
+
+        setHardCap(parseFloat(hardcap) - parseFloat(sum))
+        console.log(sum);
+    }
+
+    function updateNewRanges(i, event) {
         const values = [...newRanges];
         values[i].value = event.target.value;
         setNewRanges(values);
+
+        updateHardCap();
       }
 
     function updateNewPercentages(i, event) {
@@ -259,7 +272,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                         <input
                             type="text"
                             placeholder="Range"
-                            onChange={e => handleChange(idx, e)}
+                            onChange={e => updateNewRanges(idx, e)}
                             />
 
                         <input
@@ -275,7 +288,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     );
                 })}
                 
-                <p>ETH left: {hardcap}</p>
+                <p>ETH left: {HardCap}</p>
 
                 <button type="button" onClick={() => handleAdd()}>
                     Add
