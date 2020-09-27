@@ -111,7 +111,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [bonusData, setbonusData] = useState(BonusData);
 
     const [fields, setFields] = useState([{ value: null }]);
-    const [newPercentage, setNewPercentage] = useState([{ value: null }]);
+    const [newPercentages, setNewPercentages] = useState([ {amount: null} ]);
 
 
     function handleChange(i, event) {
@@ -121,16 +121,22 @@ export default function BonusRange ({token_price, supply, hardcap}) {
       }
 
     function updateNewPercentages(i, event) {
-        const values = [...newPercentage];
+        const values = [...newPercentages];
         values[i].value = event.target.value;
-        setNewPercentage(values);
+        setNewPercentages(values);
       }
     
       function handleAdd() {
         const values = [...fields];
+        const percentages = [...newPercentages];
+
         values.push({ value: null });
+        percentages.push({value: null});
+        
         setFields(values);
+        setNewPercentages(percentages);
       }
+    
     
       function handleRemove(i) {
         const values = [...fields];
@@ -198,13 +204,13 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         Result = (eth_liq / 0.83322517845) * 100
         
         //For Testing and Debuging
-        console.log("Total Amount: " + totalAmount);
-        console.log("ref: " + ref);
-        console.log("sampleAmount: " + sampleAmount);
-        console.log("bonusPrice: " + bonusPrice);
-        console.log("targetPrice: " + targetPrice);
-        console.log("eth_liq: " + eth_liq);
-        console.log("Result: ", Result);
+        // console.log("Total Amount: " + totalAmount);
+        // console.log("ref: " + ref);
+        // console.log("sampleAmount: " + sampleAmount);
+        // console.log("bonusPrice: " + bonusPrice);
+        // console.log("targetPrice: " + targetPrice);
+        // console.log("eth_liq: " + eth_liq);
+        // console.log("Result: ", Result);
     
         return (
             <>
@@ -270,7 +276,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     Add
                 </button>
 
-                <button type="button" onClick={() => console.log(fields, newPercentage)}>
+                <button type="button" onClick={() => console.log(fields, newPercentages)}>
                     submit
                 </button>
                                                         
