@@ -110,14 +110,14 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [HardCap, setHardCap] = useState(hardcap);
     const [bonusData, setbonusData] = useState(BonusData);
 
-    const [fields, setFields] = useState([{ value: null }]);
+    const [newRanges, setNewRanges] = useState([{ value: null }]);
     const [newPercentages, setNewPercentages] = useState([ {amount: null} ]);
 
 
     function handleChange(i, event) {
-        const values = [...fields];
+        const values = [...newRanges];
         values[i].value = event.target.value;
-        setFields(values);
+        setNewRanges(values);
       }
 
     function updateNewPercentages(i, event) {
@@ -127,21 +127,26 @@ export default function BonusRange ({token_price, supply, hardcap}) {
       }
     
       function handleAdd() {
-        const values = [...fields];
+        const ranges = [...newRanges];
         const percentages = [...newPercentages];
 
-        values.push({ value: null });
+        ranges.push({ value: null });
         percentages.push({value: null});
         
-        setFields(values);
+        setNewRanges(ranges);
         setNewPercentages(percentages);
       }
     
     
       function handleRemove(i) {
-        const values = [...fields];
-        values.splice(i, 1);
-        setFields(values);
+        const ranges = [...newRanges];
+        const percentages = [...newPercentages];
+
+        ranges.splice(i, 1);
+        percentages.splice(i, 1);
+        
+        setNewRanges(ranges);
+        setNewPercentages(percentages)
       }
     
     function openModal() {
@@ -248,9 +253,9 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                 )}
                 <p>Create Own</p>
                 
-                {fields.map((field, idx) => {
+                {newRanges.map((newBonusRange, idx) => {
                     return (
-                    <div key={`${field}-${idx}`}>
+                    <div key={`${newBonusRange}-${idx}`}>
                         <input
                             type="text"
                             placeholder="Range"
@@ -276,7 +281,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     Add
                 </button>
 
-                <button type="button" onClick={() => console.log(fields, newPercentages)}>
+                <button type="button" onClick={() => console.log(newRanges, newPercentages)}>
                     submit
                 </button>
                                                         
