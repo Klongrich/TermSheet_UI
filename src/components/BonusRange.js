@@ -115,7 +115,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
 
     const [newBonusRange, setNewBonusRange] = useState([ {Percentage: newPercentages , Amount: newRanges }])
 
-    function create_new_bonsu(){
+    function create_new_bonus(){
         for (var i = 0; i < newRanges.length; i++) {
             newBonusRange.push({ 
                                  Percentage: parseFloat(newPercentages[i].value) / 100 ,
@@ -152,11 +152,6 @@ export default function BonusRange ({token_price, supply, hardcap}) {
       }
     
       function handleAdd(i) {
-        // const values = [...newBonusRange];
-        
-        // values[i].Percentage = newPercentages[i];
-        // values[i].Amount = newRanges[i]
-
         const ranges = [...newRanges];
         const percentages = [...newPercentages];
 
@@ -282,19 +277,33 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     <p onClick={() => updateBonusData(data.info)}> {data.id} : ({data.type}) </p>
                 )}
                 <p>Create Own</p>
+
+                <ul Style="list-style-type: none">
+                    
+                    <li Style="float: left;
+                                margin-left: 40px;
+                                "
+                                >
+                                Amount </li>
+                    
+                    <li Style="display: inline-block;
+                               margin-left: 190px;"
+                               >
+                                Percentage </li>
+                </ul>
                 
                 {newRanges.map((newBonusRange, idx) => {
                     return (
                     <div key={`${newBonusRange}-${idx}`}>
                         <input
                             type="text"
-                            placeholder="Range"
+                            placeholder={newRanges[idx].value}
                             onChange={e => updateNewRanges(idx, e)}
                             />
 
                         <input
                             type="text"
-                            placeholder="Bonus Percentage"
+                            placeholder={newPercentages[idx].value} 
                             onChange={e => updateNewPercentages(idx, e)}
                             />
                         
@@ -311,7 +320,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     Add
                 </button>
 
-                <button type="button" onClick={() => create_new_bonsu()}>
+                <button type="button" onClick={() => create_new_bonus()}>
                     submit
                 </button>
                                                         
