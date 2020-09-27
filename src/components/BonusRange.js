@@ -110,9 +110,21 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [HardCap, setHardCap] = useState(hardcap);
     const [bonusData, setbonusData] = useState(BonusData);
 
-    const [newRanges, setNewRanges] = useState([{ value: null }]);
-    const [newPercentages, setNewPercentages] = useState([ {amount: null} ]);
+    const [newRanges, setNewRanges] = useState([]);
+    const [newPercentages, setNewPercentages] = useState([]);
 
+    const [newBonusRange, setNewBonusRange] = useState([ {Percentage: newPercentages , Amount: newRanges }])
+
+    function create_new_bonsu(){
+        for (var i = 0; i < newRanges.length; i++) {
+            newBonusRange.push({ 
+                                 Percentage: parseFloat(newPercentages[i].value) / 100 ,
+                                 Amount: parseFloat(newRanges[i].value)  
+                                })
+        }
+        console.log(newBonusRange);
+        setbonusData(newBonusRange.splice(1));
+    }
 
     function updateHardCap(){
         var sum = 0;
@@ -139,12 +151,17 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         setNewPercentages(values);
       }
     
-      function handleAdd() {
+      function handleAdd(i) {
+        // const values = [...newBonusRange];
+        
+        // values[i].Percentage = newPercentages[i];
+        // values[i].Amount = newRanges[i]
+
         const ranges = [...newRanges];
         const percentages = [...newPercentages];
 
         ranges.push({ value: null });
-        percentages.push({value: null});
+        percentages.push({ value: null})
         
         setNewRanges(ranges);
         setNewPercentages(percentages);
@@ -294,7 +311,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     Add
                 </button>
 
-                <button type="button" onClick={() => console.log(newRanges, newPercentages)}>
+                <button type="button" onClick={() => create_new_bonsu()}>
                     submit
                 </button>
                                                         
