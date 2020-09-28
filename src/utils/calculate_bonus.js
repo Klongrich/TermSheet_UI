@@ -1,5 +1,5 @@
 import React , {useEffect, useState} from 'react';
-import {BonusData} from '../config'
+//import {BonusData} from '../config'
 
 export function Get_liq_percentage({token_supply, ETH_HardCap, BonusData}) {
     

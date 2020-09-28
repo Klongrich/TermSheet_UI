@@ -2,6 +2,8 @@ import React , {useEffect, useState} from 'react';
 import {BonusData} from '../config'
 
 import  {Get_liq_percentage} from '../utils/calculate_bonus'
+import styled from "styled-components";
+
 import Modal from 'react-modal';
 
 const bonusOptions = [
@@ -9,19 +11,19 @@ const bonusOptions = [
         id: "1",
         type: "25% - 10%",
         info: [{
-                Percentage: 0.714,
+                Percentage: 0.25,
                 Amount: 200.00
             },
             {
-                Percentage: 0.714,
+                Percentage: 0.20,
                 Amount: 300.00
             },
             {
-                Percentage: 0.714,
+                Percentage: 0.15,
                 Amount: 500.00
             },
             {
-                Percentage: 0.714,
+                Percentage: 0.10,
                 Amount: 250.00
             }]
     },
@@ -86,10 +88,11 @@ const bonusOptions = [
         }]
     },
 ]
- 
+
+
 const customStyles = {
   content : {
-    top                   : '220px',
+    top                   : '320px',
     left                  : '30%',
     right                 : 'auto',
     bottom                : 'auto',
@@ -103,6 +106,34 @@ const customStyles = {
   }
 };
 
+const ChangePointer = styled.div`
+    border: 2px solid #E4E4E4;
+    border-radius: 15px;
+    padding: 0px;
+    margin-bottom: 15px;
+    text-align: center;
+    margin-right: 50px;
+
+    :hover{
+        cursor: pointer;
+        background-color: #ededed;
+    }
+`
+
+const Input = styled.input`
+    margin-top: 3px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 2px solid #d1d1d1;
+    padding: 5px;
+    width: 250px;
+
+    :focus{
+        outline: 0;
+        box-shadow: 0 0 5px blue;
+      }
+`
+
 export default function BonusRange ({token_price, supply, hardcap}) {
     var subtitle;
 
@@ -110,8 +141,8 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [HardCap, setHardCap] = useState(hardcap);
     const [bonusData, setbonusData] = useState(BonusData);
 
-    const [newRanges, setNewRanges] = useState([]);
-    const [newPercentages, setNewPercentages] = useState([]);
+    const [newRanges, setNewRanges] = useState([{value: null}]);
+    const [newPercentages, setNewPercentages] = useState([{value: null}]);
 
     const [newBonusRange, setNewBonusRange] = useState([ {Percentage: newPercentages , Amount: newRanges }])
 
@@ -263,7 +294,8 @@ export default function BonusRange ({token_price, supply, hardcap}) {
             <h3 Style="text-decoration: underline;
                         margin-left: 40px;
                         margin-bottom: -5px;
-                        margin-top: -10px;" onClick={openModal}> Select</h3>
+                        margin-top: -10px;
+                        " onClick={openModal}> Select</h3>
 
             <Modal  isOpen={modalIsOpen}
                     onAfterOpen={afterOpenModal}
@@ -271,12 +303,15 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                     style={customStyles}
                     >
             
-                <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Strucuter </h2>
+                <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Structure </h2>
 
                 {bonusOptions.map(data =>
-                    <p onClick={() => updateBonusData(data.info)}> {data.id} : ({data.type}) </p>
+                    <ChangePointer>
+                    <p onClick={() => updateBonusData(data.info)}> ({data.type}) </p>
+                    </ChangePointer>
                 )}
-                <p>Create Own</p>
+                
+                <h3  Style="Color: #f00 ">Create Own</h3>
 
                 <ul Style="list-style-type: none">
                     
@@ -294,14 +329,20 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                 
                 {newRanges.map((newBonusRange, idx) => {
                     return (
-                    <div key={`${newBonusRange}-${idx}`}>
-                        <input
+                    <div key={`${newBonusRange}-${idx}`} Style=" input {
+                        margin-top: 3px;
+                        border-radius: 5px;
+                        border: 2px solid black;
+                        padding: 5px;
+                        width: 250px;
+                      }">
+                        <Input
                             type="text"
                             placeholder={newRanges[idx].value}
                             onChange={e => updateNewRanges(idx, e)}
                             />
 
-                        <input
+                        <Input
                             type="text"
                             placeholder={newPercentages[idx].value} 
                             onChange={e => updateNewPercentages(idx, e)}
