@@ -1,6 +1,5 @@
 import React , {useEffect, useState} from 'react';
 import {BonusData} from '../config'
-
 import  {Get_liq_percentage} from '../utils/calculate_bonus'
 import styled from "styled-components";
 
@@ -134,6 +133,38 @@ const Input = styled.input`
       }
 `
 
+const CloseButton = styled.button`
+    font-size: 18px;
+    display: inline-block;
+    margin-top: 30px;
+
+    border:2px solid #D8E0E7;
+    border-radius:8px;
+    background-color: #D8E0E7;
+
+    width: 123px;
+    height: 35px;
+
+    z-index: 2;
+    text-decoration: none;
+`
+
+const Button = styled.button`
+    font-size: 16px;
+    display: inline-block;
+
+    border:2px solid #D8E0E7;
+    border-radius: 8px;
+
+    background-color: #4A4A4A;
+    color: white;
+    width: 123px;
+    height: 35px;
+    margin-right: 20px;
+    z-index: 2;
+    text-decoration: none;
+`
+
 export default function BonusRange ({token_price, supply, hardcap}) {
     var subtitle;
 
@@ -219,7 +250,6 @@ export default function BonusRange ({token_price, supply, hardcap}) {
 
     function updateBonusData(data){
         setbonusData(data);
-        //closeModal();
     }
 
     function get_total_tokens(){
@@ -230,6 +260,12 @@ export default function BonusRange ({token_price, supply, hardcap}) {
             totalAmount += parseFloat((data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(2))
         )}
         return (totalAmount);
+    }
+
+    function checkKey(key){
+        if (key == 13) {
+            handleAdd()
+        }
     }
 
     function get_liq_percentage(token_supply, ETH_HardCap) {
@@ -346,6 +382,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                             type="text"
                             placeholder={newPercentages[idx].value} 
                             onChange={e => updateNewPercentages(idx, e)}
+                            onKeyDown={e => checkKey(e.keyCode)}
                             />
                         
                         <button type="button" onClick={() => handleRemove(idx)}>
@@ -357,19 +394,18 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                 
                 <p>ETH left: {HardCap}</p>
 
-                <button type="button" onClick={() => handleAdd()}>
+                <Button onClick={() => handleAdd()}>
                     Add
-                </button>
+                </Button>
 
-                <button type="button" onClick={() => create_new_bonus()}>
-                    submit
-                </button>
-                                                        
-                <p>...</p>
-                <button onClick={closeModal}>close</button>
+                <Button onClick={() => create_new_bonus()}>
+                    Submit
+                </Button>
+                <br />
+               <CloseButton onClick={closeModal}> Close </CloseButton>
 
             </Modal>
-
+                        
         <ul Style="float: left">
             <li>Range</li>
             {bonusData.map(data => 
@@ -397,7 +433,6 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                 <li> { (data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(0)}</li>    
             )}   
         </ul>
-
             
         <p Style="margin-left: 40px;
                  font-weight: bold;">
