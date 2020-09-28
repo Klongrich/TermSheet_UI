@@ -5,9 +5,6 @@ import { CSVLink } from "react-csv";
 import data from './data.json';
 import LidLogo from './images/logo-lid.png';
 
-//import {get_liq_percentage} from './utils/calculate_bonus'
-import {useHardCap} from './state/index'
-
 import BonusRange from './components/BonusRange'
 import Result from './components/Result'
 
@@ -16,6 +13,7 @@ const Container = styled.div`
   background-color: #E4E4E4;;
   margin-top: -20px;
   padding-top: 20px;
+  padding-bottom: 10px;
 
   div {
     background-color: #4A4A4A;
@@ -249,11 +247,7 @@ function App() {
             ethLiq={ethLiq}
             lidLiq={lidLiq}
             csvData={csvData}/>
-
     </Container>
-
-    {/* For Debugging */}
-    {/* <p> {get_liq_percentage(supply , hardcap)}</p> */}
     </>
     
   )

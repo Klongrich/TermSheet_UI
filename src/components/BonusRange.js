@@ -106,7 +106,7 @@ const customStyles = {
   }
 };
 
-const ChangePointer = styled.div`
+const SelectBonusStructer = styled.div`
     border: 2px solid #E4E4E4;
     border-radius: 15px;
     padding: 0px;
@@ -306,9 +306,9 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                 <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Structure </h2>
 
                 {bonusOptions.map(data =>
-                    <ChangePointer>
+                    <SelectBonusStructer> 
                     <p onClick={() => updateBonusData(data.info)}> ({data.type}) </p>
-                    </ChangePointer>
+                    </SelectBonusStructer>
                 )}
                 
                 <h3  Style="Color: #f00 ">Create Own</h3>

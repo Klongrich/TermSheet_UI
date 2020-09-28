@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { CSVLink } from "react-csv";
 
 import get_token_price from '../utils/calculate_toke_price'
-import {useHardCap} from '../state/index'
 
 import data from '../data.json';
 
@@ -11,8 +10,7 @@ const ResultsContainer = styled.div`
   font-family: Gotham, sans-serif;
   background-color:#737373;
   
-  margin-top: 5px;
-  margin-bottom: 40px;
+  margin-top: -35px;
 
   font-weight: bold;
 
