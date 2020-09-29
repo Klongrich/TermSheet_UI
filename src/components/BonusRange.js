@@ -1,8 +1,9 @@
 import React , {useEffect, useState} from 'react';
-import {BonusData} from '../config'
-import {BonusOptions} from '../config'
-import  {Get_liq_percentage} from '../utils/calculate_bonus'
+import {BonusData , BonusOptions} from '../config'
 import styled from "styled-components";
+
+import get_total_tokens from '../utils/get_total_tokens'
+import  get_liq_percentage from '../utils/calculate_bonus'
 
 import Modal from 'react-modal';
 
@@ -95,16 +96,14 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [bonusPageState, setBonusPageState] = useState("preset");
     const [newBonusRange, setNewBonusRange] = useState([ {Percentage: newPercentages , Amount: newRanges }])
 
-    function create_new_bonus(){
+    function create_new_bonus() {
         for (var i = 0; i < newRanges.length; i++) {
             newBonusRange.push({ 
                                  Percentage: parseFloat(newPercentages[i].value) / 100 ,
                                  Amount: parseFloat(newRanges[i].value)  
                                 })
         }
-        console.log(newBonusRange);
         setbonusData(newBonusRange.splice(1));
-
         setIsOpen(false);
     }
 
@@ -116,7 +115,6 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         )}
 
         setHardCap(parseFloat(hardcap) - parseFloat(sum))
-        console.log(sum);
     }
 
     function updateNewRanges(i, event) {
@@ -125,15 +123,15 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         setNewRanges(values);
 
         updateHardCap();
-      }
+    }
 
     function updateNewPercentages(i, event) {
         const values = [...newPercentages];
         values[i].value = event.target.value;
         setNewPercentages(values);
-      }
+    }
     
-      function handleAdd(i) {
+    function handleAdd(i) {
         const ranges = [...newRanges];
         const percentages = [...newPercentages];
 
@@ -142,10 +140,9 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         
         setNewRanges(ranges);
         setNewPercentages(percentages);
-      }
+    }
     
-    
-      function handleRemove(i) {
+    function handleRemove(i) {
         const ranges = [...newRanges];
         const percentages = [...newPercentages];
 
@@ -154,82 +151,12 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         
         setNewRanges(ranges);
         setNewPercentages(percentages)
-      }
-    
-    function openModal() {
-      setIsOpen(true);
-    }
-      
-    function closeModal(){
-      setIsOpen(false);
-    }
-
-    function updateBonusData(data){
-        setbonusData(data);
-    }
-
-    function get_total_tokens(){
-        var totalAmount;
-
-        totalAmount = 0;
-        {bonusData.map(data => 
-            totalAmount += parseFloat((data.Amount * (parseFloat(token_price) * data.Percentage + parseFloat(token_price))).toFixed(2))
-        )}
-        return (totalAmount);
     }
 
     function checkKey(key){
         if (key == 13) {
             handleAdd()
         }
-    }
-
-    function get_liq_percentage(token_supply, ETH_HardCap) {
-    
-        var Result;
-        var presale_tokens;
-    
-        token_supply = 300000.00;
-        ETH_HardCap = 1250.00;
-        presale_tokens = token_supply * 0.3
-    
-        var totalAmount;
-        var ref;
-        var sampleAmount;
-        var bonusPrice;
-        var targetPrice;
-        var eth_liq;
-        var Result;
-    
-        totalAmount = 0;
-        {bonusData.map(data => 
-            totalAmount += ((data.Percentage * data.Amount) + data.Amount)
-        )}
-    
-        ref = ((bonusData[0].Amount) + (bonusData[0].Percentage * bonusData[0].Amount)) / totalAmount;
-        sampleAmount = presale_tokens  * ref;
-    
-        bonusPrice = sampleAmount / bonusData[0].Amount;
-        targetPrice = bonusPrice / (1 + bonusData[0].Percentage);
-    
-        eth_liq = ((ETH_HardCap / 2) * targetPrice) / token_supply;
-    
-        Result = (eth_liq / 0.83322517845) * 100
-        
-        //For Testing and Debuging
-        // console.log("Total Amount: " + totalAmount);
-        // console.log("ref: " + ref);
-        // console.log("sampleAmount: " + sampleAmount);
-        // console.log("bonusPrice: " + bonusPrice);
-        // console.log("targetPrice: " + targetPrice);
-        // console.log("eth_liq: " + eth_liq);
-        // console.log("Result: ", Result);
-    
-        return (
-            <>
-            Recommend LIQ: {Result.toFixed(2)}%
-            </>
-        );
     }
 
     function get_bonus_options () {
@@ -242,7 +169,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
 
                 {BonusOptions.map(data =>
                     <SelectBonusStructer> 
-                        <p onClick={() => updateBonusData(data.info)}> ({data.type}) </p>
+                        <p onClick={() => setbonusData(data.info)}> ({data.type}) </p>
                     </SelectBonusStructer>
                 )}
 
@@ -307,9 +234,8 @@ export default function BonusRange ({token_price, supply, hardcap}) {
             </CloseButton>
             <br />
             </>
-        )
+        )}
     }
-}
     
     return (
         <>
@@ -367,12 +293,12 @@ export default function BonusRange ({token_price, supply, hardcap}) {
             
         <p Style="margin-left: 40px;
                  font-weight: bold;">
-                {get_liq_percentage(supply, hardcap)}
+                Recommend LIQ: {(get_liq_percentage(supply, hardcap, bonusData) * 100).toFixed(2)}%
         </p>
         
-
         <p Style="margin-left: 200px;
-                 font-weight: bold;">Total Tokens: {get_total_tokens().toFixed(0)} </p>
+                 font-weight: bold;">
+                Total Tokens: {get_total_tokens(bonusData, token_price).toFixed(0)} </p>
         </div>       
       </>
     )
