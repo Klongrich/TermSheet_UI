@@ -2,8 +2,6 @@ import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { CSVLink } from "react-csv";
 
-import get_token_price from '../utils/calculate_toke_price'
-
 import data from '../data.json';
 
 const ResultsContainer = styled.div`

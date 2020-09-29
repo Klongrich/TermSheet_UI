@@ -3,7 +3,7 @@ import {BonusData , BonusOptions} from '../config'
 import styled from "styled-components";
 
 import get_total_tokens from '../utils/get_total_tokens'
-import  get_liq_percentage from '../utils/calculate_bonus'
+import  get_liq_percentage from '../utils/calculate_liq_percentage'
 
 import Modal from 'react-modal';
 
