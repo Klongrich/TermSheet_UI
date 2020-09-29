@@ -1,93 +1,10 @@
 import React , {useEffect, useState} from 'react';
 import {BonusData} from '../config'
+import {BonusOptions} from '../config'
 import  {Get_liq_percentage} from '../utils/calculate_bonus'
 import styled from "styled-components";
 
 import Modal from 'react-modal';
-
-const bonusOptions = [
-    {
-        id: "1",
-        type: "25% - 10%",
-        info: [{
-                Percentage: 0.25,
-                Amount: 200.00
-            },
-            {
-                Percentage: 0.20,
-                Amount: 300.00
-            },
-            {
-                Percentage: 0.15,
-                Amount: 500.00
-            },
-            {
-                Percentage: 0.10,
-                Amount: 250.00
-            }]
-    },
-    {
-        id: "2",
-        type: "35% - 5%",
-        info:  [{
-            Percentage: 0.35,
-            Amount: 400.00
-        },
-        {
-            Percentage: 0.10,
-            Amount: 100.00
-        },
-        {
-            Percentage: 0.08,
-            Amount: 200.00
-        },
-        {
-            Percentage: 0.05,
-            Amount: 550.00
-        }]
-    },
-    {
-        id: "3",
-        type: "30% - 10%",
-        info:  [{
-            Percentage: 0.30,
-            Amount: 250.00
-        },
-        {
-            Percentage: 0.20,
-            Amount: 250.00
-        },
-        {
-            Percentage: 0.10,
-            Amount: 175.00
-        },
-        {
-            Percentage: 0.00,
-            Amount: 550.00
-        }]
-    },
-    {
-        id: "4",
-        type: "10% - 1%",
-        info: [{
-            Percentage: 0.714,
-            Amount: 200.00
-        },
-        {
-            Percentage: 0.714,
-            Amount: 300.00
-        },
-        {
-            Percentage: 0.714,
-            Amount: 500.00
-        },
-        {
-            Percentage: 0.714,
-            Amount: 250.00
-        }]
-    },
-]
-
 
 const customStyles = {
   content : {
@@ -111,7 +28,8 @@ const SelectBonusStructer = styled.div`
     padding: 0px;
     margin-bottom: 15px;
     text-align: center;
-    margin-right: 50px;
+
+    width: 280px;
 
     :hover{
         cursor: pointer;
@@ -166,7 +84,6 @@ const Button = styled.button`
 `
 
 export default function BonusRange ({token_price, supply, hardcap}) {
-    var subtitle;
 
     const [modalIsOpen , setIsOpen] = useState(false);
     const [HardCap, setHardCap] = useState(hardcap);
@@ -175,6 +92,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     const [newRanges, setNewRanges] = useState([{value: null}]);
     const [newPercentages, setNewPercentages] = useState([{value: null}]);
 
+    const [bonusPageState, setBonusPageState] = useState("preset");
     const [newBonusRange, setNewBonusRange] = useState([ {Percentage: newPercentages , Amount: newRanges }])
 
     function create_new_bonus(){
@@ -186,6 +104,8 @@ export default function BonusRange ({token_price, supply, hardcap}) {
         }
         console.log(newBonusRange);
         setbonusData(newBonusRange.splice(1));
+
+        setIsOpen(false);
     }
 
     function updateHardCap(){
@@ -239,11 +159,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
     function openModal() {
       setIsOpen(true);
     }
-   
-    function afterOpenModal() {
-      subtitle.style.color = '#f00';
-    }
-   
+      
     function closeModal(){
       setIsOpen(false);
     }
@@ -315,6 +231,85 @@ export default function BonusRange ({token_price, supply, hardcap}) {
             </>
         );
     }
+
+    function get_bonus_options () {
+
+        if (bonusPageState == "preset") {
+            return (
+            <>
+             
+             <h2 Style="color: #f00"> Select Bonus Structure </h2>
+
+                {BonusOptions.map(data =>
+                    <SelectBonusStructer> 
+                        <p onClick={() => updateBonusData(data.info)}> ({data.type}) </p>
+                    </SelectBonusStructer>
+                )}
+
+            <Button Style="margin-top: 80px;" onClick={() => setBonusPageState("CreatingOwn")}> 
+                Create Own 
+            </Button>
+            </>
+            );
+        } else {
+            return (
+                <>
+                <h3  Style="Color: #f00 ">Create Own</h3>
+
+                <ul Style="list-style-type: none">
+                <li Style="float: left;
+                            margin-left: 40px;
+                            "
+                            >
+                            Amount </li>
+                
+                <li Style="display: inline-block;
+                           margin-left: 190px;"
+                            >
+                            Percentage </li>
+                </ul>
+
+            {newRanges.map((newBonusRange, idx) => {
+                return (                
+                <div key={`${newBonusRange}-${idx}`}>
+                    <Input
+                        type="text"
+                        placeholder={newRanges[idx].value}
+                        onChange={e => updateNewRanges(idx, e)}
+                        />
+
+                    <Input
+                        type="text"
+                        placeholder={newPercentages[idx].value} 
+                        onChange={e => updateNewPercentages(idx, e)}
+                        onKeyDown={e => checkKey(e.keyCode)}
+                        />
+                    
+                    <button type="button" onClick={() => handleRemove(idx)}>
+                    X
+                    </button>
+                </div>
+                )                        
+            })}
+
+            <p>ETH left: {HardCap}</p>
+
+            <Button onClick={() => handleAdd()}>
+                Add
+            </Button>
+
+            <Button onClick={() => create_new_bonus()}>
+                Submit
+            </Button>
+            <br />
+            <CloseButton onClick={() => setBonusPageState("preset")}>
+                Go Back
+            </CloseButton>
+            <br />
+            </>
+        )
+    }
+}
     
     return (
         <>
@@ -331,78 +326,14 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                         margin-left: 40px;
                         margin-bottom: -5px;
                         margin-top: -10px;
-                        " onClick={openModal}> Select</h3>
+                        " onClick={() => setIsOpen(true)}> Select</h3>
 
             <Modal  isOpen={modalIsOpen}
-                    onAfterOpen={afterOpenModal}
-                    onRequestClose={closeModal}
+                    onRequestClose={() => setIsOpen(false)}
                     style={customStyles}
                     >
-            
-                <h2 ref={_subtitle => (subtitle = _subtitle)}> Select Bonus Structure </h2>
 
-                {bonusOptions.map(data =>
-                    <SelectBonusStructer> 
-                    <p onClick={() => updateBonusData(data.info)}> ({data.type}) </p>
-                    </SelectBonusStructer>
-                )}
-                
-                <h3  Style="Color: #f00 ">Create Own</h3>
-
-                <ul Style="list-style-type: none">
-                    
-                    <li Style="float: left;
-                                margin-left: 40px;
-                                "
-                                >
-                                Amount </li>
-                    
-                    <li Style="display: inline-block;
-                               margin-left: 190px;"
-                               >
-                                Percentage </li>
-                </ul>
-                
-                {newRanges.map((newBonusRange, idx) => {
-                    return (
-                    <div key={`${newBonusRange}-${idx}`} Style=" input {
-                        margin-top: 3px;
-                        border-radius: 5px;
-                        border: 2px solid black;
-                        padding: 5px;
-                        width: 250px;
-                      }">
-                        <Input
-                            type="text"
-                            placeholder={newRanges[idx].value}
-                            onChange={e => updateNewRanges(idx, e)}
-                            />
-
-                        <Input
-                            type="text"
-                            placeholder={newPercentages[idx].value} 
-                            onChange={e => updateNewPercentages(idx, e)}
-                            onKeyDown={e => checkKey(e.keyCode)}
-                            />
-                        
-                        <button type="button" onClick={() => handleRemove(idx)}>
-                        X
-                        </button>
-                    </div>
-                    );
-                })}
-                
-                <p>ETH left: {HardCap}</p>
-
-                <Button onClick={() => handleAdd()}>
-                    Add
-                </Button>
-
-                <Button onClick={() => create_new_bonus()}>
-                    Submit
-                </Button>
-                <br />
-               <CloseButton onClick={closeModal}> Close </CloseButton>
+                {get_bonus_options()}
 
             </Modal>
                         
@@ -442,9 +373,7 @@ export default function BonusRange ({token_price, supply, hardcap}) {
 
         <p Style="margin-left: 200px;
                  font-weight: bold;">Total Tokens: {get_total_tokens().toFixed(0)} </p>
-        </div>
-
-       
+        </div>       
       </>
     )
 }
