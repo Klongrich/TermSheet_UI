@@ -2,9 +2,11 @@ import React, { useState, ComponentProps } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 
 const dataMock = [
-    { title: 'One', value: 10, color: '#E38627' },
-    { title: 'Two', value: 15, color: '#C13C37' },
-    { title: 'Three', value: 20, color: '#6A2135' },
+    { title: 'Presale', value: 30, color: '#E38627' },
+    { title: 'Liq', value: 15, color: '#C13C37' },
+    { title: 'Team', value: 11, color: '#6A2135' },
+    { title: 'Staking', value: 30, color: '#6A2135' },
+    { title: 'Marketing', value: 13, color: '#6A2135' }
   ];
   
 function FullOption(props) {
@@ -30,14 +32,14 @@ function FullOption(props) {
           '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
         fontSize: '8px',
       }}
-      viewBoxSize={[500,140]}
+      viewBoxSize={[500,100]}
       data={data}
       radius={PieChart.defaultProps.radius - 6}
       lineWidth={60}
       segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
       segmentsShift={(index) => (index === selected ? 6 : 1)}
       animate
-      label={({ dataEntry }) => Math.round(dataEntry.percentage) + '%' + "\n" + dataEntry.title}
+      label={({ dataEntry }) => Math.round(dataEntry.percentage) + '%'}
       labelPosition={100 - lineWidth / 2}
       labelStyle={{
         fill: 'black',

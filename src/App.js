@@ -2,6 +2,7 @@ import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { CSVLink } from "react-csv";
 import PieChart from './components/PieChart';
+import {Error} from '@styled-icons/boxicons-regular/Error'
 
 import data from './data.json';
 import LidLogo from './images/logo-lid.png';
@@ -128,7 +129,31 @@ function App() {
     ["Token Burn", "15.00%", "0.00%", "", ""],
   ];
 
-  
+  const [hardCapError, setHardCapError] = useState("");
+  const [error, setError] = useState(false)
+
+  function checkError(){
+    if (hardCapError != "") {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }
+
+  function checkHardCap(e){
+    if (!e) {
+      setHardCapError("- can not be null");
+    }
+    else if (parseFloat(e) < 150) {
+      setHardCapError("- must be above 150");
+    }
+    else if (parseFloat(e) > 2000) {
+      setHardCapError("- must be below 2000");
+    } else {
+      setHardCapError("");
+    }
+    setHardcap(e);
+  }
 
   return (
 
@@ -151,11 +176,12 @@ function App() {
 
       <h2>Token Presale</h2>
       <ul>
-        <li> HardCap <br />
+        <li> HardCap {hardCapError}  <br />
+
           <input type="number" 
                   placeholder={hardcap} 
                   step="0.01"
-                  onChange={e => setHardcap(e.target.value)} />
+                  onChange={e => checkHardCap(e.target.value)} />
         </li>
 
 
@@ -249,7 +275,24 @@ function App() {
             lidLiq={lidLiq}
             csvData={csvData}/>
 
-    <PieChart />
+    <div Style="background-color: white;
+                color: black;">
+      <h3>Example</h3>
+
+      <h2>Token Distrubtion</h2>
+
+      <ul>
+        <li>Presale: 30%</li>
+        <li>Liquidity: {liq}% </li>
+        <li>Staking: {staking}%</li>
+        <li>Marketing: {marketing}%</li>
+        <li>Team: {team}%</li>
+        <li>{unlocked}: 5%</li>
+      </ul>
+      
+      <PieChart />
+    
+    </div>
 
     </Container>
     </>

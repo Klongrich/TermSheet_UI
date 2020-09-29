@@ -9,7 +9,7 @@ import Modal from 'react-modal';
 
 const customStyles = {
   content : {
-    top                   : '320px',
+    top                   : '255px',
     left                  : '30%',
     right                 : 'auto',
     bottom                : 'auto',
@@ -49,7 +49,7 @@ const Input = styled.input`
     :focus{
         outline: 0;
         box-shadow: 0 0 5px blue;
-      }
+    }
 `
 
 const CloseButton = styled.button`
@@ -66,6 +66,25 @@ const CloseButton = styled.button`
 
     z-index: 2;
     text-decoration: none;
+`
+
+const CreateButton = styled.button`
+    font-size: 16px;
+    display: inline-block;
+
+    border:2px solid #D8E0E7;
+    border-radius: 8px;
+
+    background-color: #4A4A4A;
+    color: white;
+    width: 280px;
+    height: 35px;
+    margin-right: 20px;
+    z-index: 2;
+    text-decoration: none;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
 `
 
 const Button = styled.button`
@@ -169,19 +188,19 @@ export default function BonusRange ({token_price, supply, hardcap}) {
 
                 {BonusOptions.map(data =>
                     <SelectBonusStructer> 
-                        <p onClick={() => setbonusData(data.info)}> ({data.type}) </p>
+                        <p onClick={() => setbonusData(data.info)}> {data.type} </p>
                     </SelectBonusStructer>
                 )}
 
-            <Button Style="margin-top: 80px;" onClick={() => setBonusPageState("CreatingOwn")}> 
+            <CreateButton Style="margin-top: 80px;" onClick={() => setBonusPageState("CreatingOwn")}> 
                 Create Own 
-            </Button>
+            </CreateButton>
             </>
             );
         } else {
             return (
                 <>
-                <h3  Style="Color: #f00 ">Create Own</h3>
+                <h2  Style="Color: #f00 ">Create Own </h2>
 
                 <ul Style="list-style-type: none">
                 <li Style="float: left;
@@ -252,6 +271,9 @@ export default function BonusRange ({token_price, supply, hardcap}) {
                         margin-left: 40px;
                         margin-bottom: -5px;
                         margin-top: -10px;
+                        .:hover {
+                            color: red;
+                        }
                         " onClick={() => setIsOpen(true)}> Select</h3>
 
             <Modal  isOpen={modalIsOpen}
