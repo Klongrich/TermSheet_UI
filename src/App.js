@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { CSVLink } from "react-csv";
+import PieChart from './components/PieChart';
 
 import data from './data.json';
 import LidLogo from './images/logo-lid.png';
@@ -247,6 +248,9 @@ function App() {
             ethLiq={ethLiq}
             lidLiq={lidLiq}
             csvData={csvData}/>
+
+    <PieChart />
+
     </Container>
     </>
     
