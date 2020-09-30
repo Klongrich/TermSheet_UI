@@ -76,17 +76,35 @@ function App() {
 
   function get_total_distrubtion() {
 
-    console.log(parseFloat(marketing));
-    console.log(parseFloat(staking));
-    console.log(parseFloat(team));
+    let total_percentage;
 
     //36 comes from 30% presale, 5% unlocked, 1% LID fee
-    return((parseFloat(marketing) 
-    + parseFloat(staking) 
-    + parseFloat(team) 
-    + parseFloat(ethLiq)
-    + parseFloat(lidLiq)
-    + 36).toFixed(2))
+    total_percentage =  parseFloat(marketing) 
+                      + parseFloat(staking) 
+                      + parseFloat(team) 
+                      + parseFloat(ethLiq)
+                      + parseFloat(lidLiq)
+                      + 36;
+
+    if (total_percentage.toFixed(2) != 100){
+      return (
+        <>
+        <li Style="color: #8B0000;
+                   font-weight: bold"> 
+                  Distrubtion Remaining {((total_percentage - 100)* -1).toFixed(2)}%
+        </li>
+        </>
+      )
+    } else {
+      return (
+        <>
+        <li Style="color:  #7FFF00;
+                   font-weight: bold"> 
+                   All Tokens Distrubtied
+        </li>
+        </>
+      )
+    }
   }
 
   function get_token_price() {
@@ -130,6 +148,8 @@ function App() {
   ];
 
   const [hardCapError, setHardCapError] = useState("");
+  const [softCapError, setSoftCapError] = useState("");
+
   const [error, setError] = useState(false)
 
   function checkError(){
@@ -140,19 +160,30 @@ function App() {
     }
   }
 
-  function checkHardCap(e){
+  function checkHardCapInput(e){
     if (!e) {
       setHardCapError("- can not be null");
-    }
-    else if (parseFloat(e) < 150) {
+    } else if (parseFloat(e) < 150) {
       setHardCapError("- must be above 150");
-    }
-    else if (parseFloat(e) > 2000) {
+    } else if (parseFloat(e) > 2000) {
       setHardCapError("- must be below 2000");
     } else {
       setHardCapError("");
     }
     setHardcap(e);
+  }
+
+  function checkSoftCapInput(e){
+    if (!e){
+      setSoftCapError("- can not be null");
+    } else if (parseFloat(e) < 50){
+      setSoftCapError("- must be above 50");
+    } else if (parseFloat(e) > 750) {
+      setSoftCapError("- must be below 750");
+    } else {
+      setSoftCapError("");
+    }
+    setSoftCap(e);
   }
 
   return (
@@ -176,20 +207,20 @@ function App() {
 
       <h2>Token Presale</h2>
       <ul>
-        <li> HardCap {hardCapError}  <br />
+        <li>HardCap {hardCapError} <br />
 
           <input type="number" 
                   placeholder={hardcap} 
                   step="0.01"
-                  onChange={e => checkHardCap(e.target.value)} />
+                  onChange={e => checkHardCapInput(e.target.value)} />
         </li>
 
 
-        <li>SoftCap <br />
+        <li>SoftCap {softCapError} <br />
           <input type="number" 
                  placeholder={softCap} 
                  step="0.01"
-                 onChange={e => setSoftCap(e.target.value)} />
+                 onChange={e => checkSoftCapInput(e.target.value)} />
         </li>
 
 
@@ -250,7 +281,7 @@ function App() {
         
         <br />
         <li Style="color: #8B0000;
-                   font-weight: bold"> Distrubtion Remaing: {((get_total_distrubtion() - 100) * -1).toFixed(2)}% </li>
+                   font-weight: bold"> {get_total_distrubtion()} </li>
       </ul>
     </div>
 
