@@ -43,9 +43,7 @@ export default function Results ( {
 
   function create_json(startTime, hardcapTimer, softCap) {
 
-    fetch('http://localhost:3010/Timer?startTime=' + startTime + '\
-                                      &hardcapTimer=' + hardcapTimer + '\
-                                      &softCap=' + softCap)
+    fetch('http://localhost:3010/Timer?startTime=' + startTime + '&hardcapTimer=' + hardcapTimer + '&softCap=' + softCap)
     .then(res => res.json())
     .then(data => console.log(data));
     
@@ -92,7 +90,7 @@ export default function Results ( {
                             z-index: 2;
                             text-decoration: none;
                             "
-            onClick={() => create_json(714 , 714, "714")}
+            onClick={() => create_json(1600789440 , 43200, "500")}
             > Submit
             </button>  
       
