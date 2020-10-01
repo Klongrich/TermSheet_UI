@@ -13,16 +13,16 @@ app.use(cors());
 app.get('/Timer', function(req, res, next) {
   
   let data = { 
-    startTime: req.startTime, 
-    hardCapTimer: req.hardCapTimer, 
-    softcape: "ether(" + req.softCap + ")"
+    startTime: req.query.startTime ,
+    hardcapTimer: req.query.hardcapTimer, 
+    softcap: "ether(" + req.query.softCap + ")"
   }
     
   fs.writeFile("Timer.json", JSON.stringify(data), err => {  
     if (err) throw err;  
     console.log("Done writing"); 
   }) 
-  console.log(req);
+  res.send("success");
 })
 
 app.get('/Redemer', function(req, res, next){

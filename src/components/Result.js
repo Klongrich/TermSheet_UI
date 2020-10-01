@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { CSVLink } from "react-csv";
+import axios from 'axios';
 
 import data from '../data.json';
 
@@ -39,6 +40,17 @@ export default function Results ( {
   lidLiq,
   csvData
 }) {
+
+  function create_json(startTime, hardcapTimer, softCap) {
+
+    fetch('http://localhost:3010/Timer?startTime=' + startTime + '\
+                                      &hardcapTimer=' + hardcapTimer + '\
+                                      &softCap=' + softCap)
+    .then(res => res.json())
+    .then(data => console.log(data));
+    
+  }
+
     return (
         <>
         <ResultsContainer> 
@@ -80,13 +92,8 @@ export default function Results ( {
                             z-index: 2;
                             text-decoration: none;
                             "
-            // onClick={() => calculate_outcome()}
-            >
-               <CSVLink Style="text-decoration: none;
-                               font-size: 18px;
-                               font-family: Gotham, sans-serif;
-                               font-weight: 0;
-                               color:  #4A4A4A" data={csvData}> Submit </CSVLink>
+            onClick={() => create_json(714 , 714, "714")}
+            > Submit
             </button>  
       
       </ResultsContainer> 
