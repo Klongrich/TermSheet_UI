@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/Timer', function(req, res, next) {
-  
   let data = { 
     startTime: req.query.startTime ,
     hardcapTimer: req.query.hardcapTimer, 
