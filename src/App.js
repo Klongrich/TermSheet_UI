@@ -285,9 +285,6 @@ function App() {
       </ul>
     </div>
 
-
-
-
     <BonusRange supply={supply}
                 hardcap={hardcap}
                 token_price={get_token_price()}
@@ -307,8 +304,11 @@ function App() {
             csvData={csvData}/>
 
     <div Style="background-color: white;
-                color: black;">
-      <h3>Example</h3>
+                color: black;
+                margin-bottom: 50px;
+                margin-top: 50px;
+                padding-bottom: 25px;
+                padding-top: 25px;">
 
       <h2>Token Distrubtion</h2>
 
@@ -321,8 +321,13 @@ function App() {
         <li>{unlocked}: 5%</li>
       </ul>
       
-      <PieChart />
-    
+      <div Style="margin-left: 400px;
+                  margin-top: -190px;
+                  background-color:white;
+                  border: 1px solid white;">
+        <PieChart />
+      </div>
+
     </div>
 
     </Container>

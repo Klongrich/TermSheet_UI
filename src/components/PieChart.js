@@ -32,7 +32,7 @@ function FullOption(props) {
           '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
         fontSize: '8px',
       }}
-      viewBoxSize={[500,100]}
+      viewBoxSize={[350,200]}
       data={data}
       radius={PieChart.defaultProps.radius - 6}
       lineWidth={60}
